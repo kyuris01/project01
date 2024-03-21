@@ -1,0 +1,9 @@
+.session_menu {
+    background-color: red;
+}
+
+.session_box {
+    flex-direction: row-reverse;
+
+    display: flex;
+}
