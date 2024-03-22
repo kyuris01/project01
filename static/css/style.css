@@ -1,0 +1,45 @@
+.session_menu {
+  background-color: red;
+}
+
+.session_box {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logo_box {
+  justify-content: flex-start;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+.nav_box {
+  display: flex;
+  background-color: white;
+  opacity: 0.8;
+  height: 5rem;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+}
+
+.main_image {
+  background-image: url("../img/lol_banner.png");
+  height: 30rem;
+  background-size: cover;
+}
+
+.champ_container {
+  display: flex;
+  justify-content: center;
+}
+
+.champion {
+  border-style: solid;
+  background-color: blue;
+  width: 10rem;
+  height: 20rem;
+}
