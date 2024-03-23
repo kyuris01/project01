@@ -1,14 +1,25 @@
 from flask import Flask, render_template
 from flask_cors import CORS
 from web_view import view
-import os
+import os, requests
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' #https만을 지원하는 설정을 http에서 테스트할때 필요한설정
 
 app = Flask(__name__, static_url_path='/static')
-CORS(app) #Cross Orgiin Resource Sharing 을 위한 코드()
+CORS(app) #Cross Origin Resource Sharing 을 위한 코드()
 app.secret_key = 'chris_server'
 app.register_blueprint(view.routing_object, url_prefix='/routing')
+
+@app.route("/")
+def index():
+    champion = []
+    datas = requests.get("https://ddragon.leagueoflegends.com/cdn/14.6.1/data/en_US/champion.json")
+    datas = datas.json()
+    for data in datas["data"]:
+        champion.append(data)
+    champion_name = 'Camille'
+    image_url = "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name + ".png"
+    return render_template('main.html', image_url=image_url)
 
 @app.route("/hello")
 def hello():

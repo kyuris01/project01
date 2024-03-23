@@ -9,6 +9,7 @@
 
 .logo_box {
   justify-content: flex-start;
+  margin-left: 1rem;
 }
 
 img {
@@ -32,14 +33,41 @@ img {
   background-size: cover;
 }
 
+.champions_box {
+  width: 70%;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto; /*width가 100%가 아닐때는 가운데정렬하려면 margin-left와 right를 auto로 해준다*/
+}
+
 .champ_container {
   display: flex;
+  width: 100%;
+
   justify-content: center;
+  margin-top: 1rem;
+  align-items: center;
 }
 
 .champion {
   border-style: solid;
-  background-color: blue;
+  border-color: black;
   width: 10rem;
-  height: 20rem;
+  height: 10rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+#top_lane {
+  animation: slide 20s infinite;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
