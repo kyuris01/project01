@@ -60,7 +60,7 @@ img {
 }
 
 #top_lane {
-  animation: slide 20s infinite;
+  animation: slide 60s infinite;
 }
 
 @keyframes slide {
@@ -68,6 +68,6 @@ img {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-800%);
   }
 }

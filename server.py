@@ -16,11 +16,14 @@ def index():
     datas = requests.get("https://ddragon.leagueoflegends.com/cdn/14.6.1/data/en_US/champion.json")
     datas = datas.json()
     for data in datas["data"]:
-        champion.append(data)
-    champion_name = 'Camille'
-    image_url = "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name + ".png"
-    return render_template('main.html', image_url=image_url)
+        champion.append(data) #champion = ["Aatrox", "Ahri",...]   
+    image_url = []
+    for champ in champion:
+        image_url.append("http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champ + ".png") #리스트가 빈 리스트로 초기화되었을 경우, 리스트의 인덱스에
+                                                                                                            #직접값을 할당할수없다. 대신 append()메서드를 이용!
 
+    return render_template('main.html', image_url=image_url)
+#다음할것:챔피언 역할별로 이미지분류해서 html로 보내기
 @app.route("/hello")
 def hello():
     return render_template('main.html')

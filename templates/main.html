@@ -24,22 +24,10 @@
       <div class="main_image">hi</div>
       <div class="champions_box">
         <div class="champ_container" id="top_lane">
-          <div class="champion">
-            <img src="{{ image_url }}" alt="Champion Image" />
-          </div>
-          <div class="champion">
-            <img src="{{ image_url }}" alt="Champion Image" />
-          </div>
-          <div class="champion">
-            <img src="{{ image_url }}" alt="Champion Image" />
-          </div>
-          <div class="champion"></div>
-          <div class="champion"></div>
-          <div class="champion"></div>
-          <div class="champion"></div>
-          <div class="champion"></div>
-          <div class="champion"></div>
-          <div class="champion"></div>
+          {% for url in image_url %}
+          
+          <div class="champion"><img src={{url}} alt="Champion Image" /></div>
+          {% endfor %}
         </div>
 
         <div class="champ_container">
