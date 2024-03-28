@@ -23,32 +23,52 @@
     <section>
       <div class="main_image">hi</div>
       <div class="champions_box">
-        <div class="champ_container" id="top_lane">
-          {% for url in image_url %}
+        <div>Fighter</div>
+        <div class="champ_container" id="top_lane"> <!--현재이슈 : 이미지가 첫번째 이미지부터 안나오고 중간부터나옴. champ_container에서 첫번째 이미지부터 나오도록 수정요망-->
           
+          {% for url in Fighter %}
+          <div class="champion"><img src={{url}} alt="Champion Image" /></div>
+          {% endfor %}
+        </div>
+        <div>Tank</div>
+        <div class="champ_container">
+          
+          {% for url in Tank %}
           <div class="champion"><img src={{url}} alt="Champion Image" /></div>
           {% endfor %}
         </div>
 
+        <div>Mage</div>
         <div class="champ_container">
-          <div class="champion"></div>
-          <div class="champion"></div>
-          <div class="champion"></div>
-          <div class="champion"></div>
-          <div class="champion"></div>
+          {% for url in Mage %}
+          <div class="champion"><img src={{url}} alt="Champion Image" /></div>
+          {% endfor %}
+        </div>
+        
+        <div>Assassin</div>
+        <div class="champ_container">
+          
+          {% for url in Assassin %}
+          <div class="champion"><img src={{url}} alt="Champion Image" /></div>
+          {% endfor %}
         </div>
 
-        <div class="jungle">
-          <div class="champ_container">
-            <div class="champion"></div>
-            <div class="champion"></div>
-            <div class="champion"></div>
-            <div class="champion"></div>
-            <div class="champion"></div>
-          </div>
+        <div>Marksman</div>
+        <div class="champ_container">
+          
+          {% for url in Marksman %}
+          <div class="champion"><img src={{url}} alt="Champion Image" /></div>
+          {% endfor %}
         </div>
-        <div class="ad_carry"></div>
-        <div class="support"></div>
+
+        <div>Support</div>
+        <div class="champ_container">
+          
+          {% for url in Support %}
+          <div class="champion"><img src={{url}} alt="Champion Image" /></div>
+          {% endfor %}
+        </div>
+
       </div>
     </section>
     <footer></footer>
