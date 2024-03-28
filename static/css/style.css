@@ -61,15 +61,26 @@ img {
 }
 
 #top_lane {
-  animation-name: slide;
-  animation-iteration-count: infinite;
+  animation: slide 50s linear infinite;
+  
 }
+
+.footer {
+  height: 10rem;
+  background-color: rgb(234,234,234);
+  text-align:center;
+  line-height:10rem;
+  
+}
+
+
+
 
 @keyframes slide {
   0% {
     transform: translateX(0%);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
