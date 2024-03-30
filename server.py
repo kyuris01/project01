@@ -40,7 +40,7 @@ def index():
                                                                                                         #직접값을 할당할수없다. 대신 append()메서드를 이용!
 
     return render_template('main.html', Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support)
-#다음할것:챔피언 역할별로 이미지분류해서 html로 보내기
+
 @app.route("/hello")
 def hello():
     return render_template('main.html')
