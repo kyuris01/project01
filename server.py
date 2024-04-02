@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from flask_cors import CORS
+from flask_login import LoginManager, login_user
 from web_view import view
 import os, requests
 
@@ -8,7 +9,13 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' #https만을 지원하는 설정
 app = Flask(__name__, static_url_path='/static')
 CORS(app) #Cross Origin Resource Sharing 을 위한 코드()
 app.secret_key = 'chris_server'
-app.register_blueprint(view.routing_object, url_prefix='/routing')
+app.register_blueprint(view.routing_object, url_prefix='/routing') #url_prefix = 기본경로명
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.session_protection = "strong"
+
+
 
 @app.route("/")
 def index():
@@ -41,9 +48,7 @@ def index():
 
     return render_template('main.html', Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support)
 
-@app.route("/hello")
-def hello():
-    return render_template('main.html')
+
 
 if __name__ == '__main__': #서버 띄우는건 맨 마지막줄에서 해야한다.
     app.run(host='127.0.0.1', port='5000')
