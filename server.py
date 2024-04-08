@@ -1,7 +1,8 @@
-from flask import Flask, render_template
+from flask import Flask, jsonify, render_template, make_response, session, request
 from flask_cors import CORS
 from flask_login import LoginManager, login_user
 from web_view import view
+from web_control.user_mgmt import User
 import os, requests
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' #https만을 지원하는 설정을 http에서 테스트할때 필요한설정
@@ -15,7 +16,13 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.session_protection = "strong"
 
+@login_manager.user_loader
+def load_user(index_num):
+    return User.get(index_num)
 
+@login_manager.unauthorized_handler
+def unauthorized():
+    return make_response(jsonify(success=False), 401)
 
 @app.route("/")
 def index():
@@ -48,7 +55,10 @@ def index():
 
     return render_template('main.html', Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support)
 
-
+@app.before_request
+def app_before_request():
+    if 'client_id' not in session:
+        session['client_id'] = request.environ.get('HTTP_X_REAL_IP', request.remote_addr) #http request의 IP정보를 session객체에 추가해준다.
 
 if __name__ == '__main__': #서버 띄우는건 맨 마지막줄에서 해야한다.
     app.run(host='127.0.0.1', port='5000')

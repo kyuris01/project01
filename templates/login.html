@@ -154,13 +154,10 @@
 
     
 <main class="form-signin w-100 m-auto">
-  <form method="post" action="/routing/register_function">
+  <form method="post" action="../web_view/view.py">
     <img class="mb-4" src="../static/img/LolMemo_logo.png" alt="" width="150" height="150">
-    <h1 class="h3 mb-3 fw-normal">회원가입</h1>
-    <div class="form-floating">
-      <input type="text" class="form-control" id="floatingInput" placeholder="nickname" name="nickname">
-      <label for="floatingInput">닉네임</label>
-    </div>
+    <h1 class="h3 mb-3 fw-normal">로그인</h1>
+
     <div class="form-floating">
       <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="user_email">
       <label for="floatingInput">Email address</label>
@@ -180,7 +177,10 @@
         Remember me
       </label>
     </div> -->
-    <button class="btn btn-primary w-100 py-2" type="submit">회원가입</button>
+    <button class="btn btn-primary w-100 py-2" type="submit">로그인</button>
+    {% if validation == False %}
+    <div class="invalid">회원이 아닌 사용자입니다!</div>
+    {% endif %}
     <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
   </form>
 </main>

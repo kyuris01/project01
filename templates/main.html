@@ -15,8 +15,14 @@
       <div class="nav_box">
         <div class="logo_box"><img src="../static/img/Lolmemo.png" alt="사이트로고" /></div>
         <div class="session_box">
-          <div class="session_menu"><a href="/routing/register">회원가입</a></div>
-          <div class="session_menu"><a href="">로그인</a></div>
+          {% if user_email != null %}
+          <div class="register"><a href="{{ url_for('bpname.logout') }}">logout</a></div>
+          <a class="register" href="/main_page/withdraw">회원탈퇴</a>
+          <div class="register"> {{nickname}}님, 안녕하세요 </div>
+          {% else %}
+          <div class="session_menu"><a href="/routing/register_page">회원가입</a></div>
+          <div class="session_menu"><a href="/routing/login_page">로그인</a></div>
+          {% endif %}
         </div>
       </div>
     </nav>
