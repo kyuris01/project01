@@ -3,7 +3,7 @@ from db_model.mysql import conn_mysqldb
 
 class User(UserMixin):
     def __init__(self, user_id, nickname, user_email, password):
-        self.id = user_id
+        self.user_id = user_id
         self.nickname = nickname
         self.user_email=user_email
         self.password = password
@@ -13,10 +13,10 @@ class User(UserMixin):
     
     @staticmethod
     def get(user_id):
-        mysql_db = conn_mysqldb
+        mysql_db = conn_mysqldb()
         db_cursor = mysql_db.cursor()
-        sql = "SELECT * FROM user_info WHERE user_id = '" + str(user_id) + "'"
-        db_cursor.execute(sql)
+        sql = "SELECT * FROM user_info WHERE user_id = %s"
+        db_cursor.execute(sql, (user_id))
         user = db_cursor.fetchone()
         if not user:
             db_cursor.close()
@@ -30,9 +30,12 @@ class User(UserMixin):
     def find(user_email, password):
         mysql_db = conn_mysqldb()
         db_cursor = mysql_db.cursor()
-        sql = "SELECT * FROM user_info WHERE user_email = '" + str(user_email) + "' AND password = '" + str(password) + "'"
-        db_cursor.execute(sql)
+        print("-------------before sql execute-----------")
+        sql = "SELECT * FROM user_info WHERE user_email = %s AND password = %s"
+        db_cursor.execute(sql, (user_email, password))
         user = db_cursor.fetchone()
+        db_cursor.close()
+        print("----------------", user, "---------------")
         if not user:
             return None
         
@@ -44,12 +47,15 @@ class User(UserMixin):
     @staticmethod
     def create(nickname, user_email, password): #회원가입 로직
         user=User.find(user_email, password)
+        
         if user == None:
             mysql_db=conn_mysqldb()
             db_cursor=mysql_db.cursor()
-            sql = "INSERT INTO user_info (nickname, user_email, password) VALUES (%s, %s, %s)" % (str(nickname), str(user_email), str(password))
-            db_cursor.execute(sql)
+            print("------------before insert----------")
+            sql = "INSERT INTO user_info (nickname, user_email, password) VALUES (%s, %s, %s)" #"INSERT INTO user_info (nickname, user_email, password) VALUES (%s, %s, %s)" % (str(nickname)), str(user_email), str(password))
+            db_cursor.execute(sql, (nickname, user_email, password))                                #해당 insert문의 표현은 아마 deprecated된것같다. 이것때문에 계속 sql syntax오류가난듯.
             mysql_db.commit()
+            print("--------------after insert------------")
             return User.find(user_email, password)
         else:
             return 'already exist'

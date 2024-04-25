@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, render_template, make_response, session, request
 from flask_cors import CORS
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, logout_user
 from web_view import view
 from web_control.user_mgmt import User
 import os, requests
@@ -17,8 +17,8 @@ login_manager.init_app(app)
 login_manager.session_protection = "strong"
 
 @login_manager.user_loader
-def load_user(index_num):
-    return User.get(index_num)
+def load_user(user_id):
+    return User.get(user_id)
 
 @login_manager.unauthorized_handler
 def unauthorized():
@@ -31,7 +31,7 @@ def index():
     champion_name=[]
     for data in datas["data"]:
         champion_name.append(data)
-    Fighter =[]
+    Fighter = []
     Tank =[]
     Mage=[]
     Assassin=[]

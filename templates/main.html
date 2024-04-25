@@ -7,13 +7,16 @@
     <meta name="author" content="chris ahn" />
     <title>Lolmemo::My own tips of playing LOL</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css" />
   </head>
   <body>
     <header></header>
     <nav>
       <div class="nav_box">
-        <div class="logo_box"><img src="../static/img/Lolmemo.png" alt="사이트로고" /></div>
+        <div class="logo_box"><img src="../static/img/Lollipop.png" alt="사이트로고" /></div>
         <div class="session_box">
           {% if user_email != null %}
           <div class="register"><a href="{{ url_for('bpname.logout') }}">logout</a></div>
@@ -29,14 +32,14 @@
     <section>
       <div class="main_image">hi</div>
       <div class="champions_box">
-        <div>Fighter</div>
+        <div class="champ_category">Fighter</div>
         <div class="champ_container" id="top_lane"> <!--현재이슈 : 이미지가 첫번째 이미지부터 안나오고 중간부터나옴. champ_container에서 첫번째 이미지부터 나오도록 수정요망-->
           
           {% for url in Fighter %}
           <div class="champion"><img src={{url}} alt="Champion Image" /></div>
           {% endfor %}
         </div>
-        <div>Tank</div>
+        <div class="champ_category">Tank</div>
         <div class="champ_container">
           
           {% for url in Tank %}
@@ -44,14 +47,14 @@
           {% endfor %}
         </div>
 
-        <div>Mage</div>
+        <div class="champ_category">Mage</div>
         <div class="champ_container">
           {% for url in Mage %}
           <div class="champion"><img src={{url}} alt="Champion Image" /></div>
           {% endfor %}
         </div>
         
-        <div>Assassin</div>
+        <div class="champ_category">Assassin</div>
         <div class="champ_container">
           
           {% for url in Assassin %}
@@ -59,7 +62,7 @@
           {% endfor %}
         </div>
 
-        <div>Marksman</div>
+        <div class="champ_category">Marksman</div>
         <div class="champ_container">
           
           {% for url in Marksman %}
@@ -67,7 +70,7 @@
           {% endfor %}
         </div>
 
-        <div>Support</div>
+        <div class="champ_category">Support</div>
         <div class="champ_container">
           
           {% for url in Support %}
@@ -79,7 +82,8 @@
     </section>
     <footer>
       <div class="footer">
-          Project by Taekyu<br>all rights reserved
+          Project by Taekyu<br>
+          all rights reserved
       </div>
     </footer>
     <script src="/static/js/main.js"></script>
