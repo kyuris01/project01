@@ -73,7 +73,8 @@ def member_check():
         return render_template('login.html', validation=False)
     else:
         login_user(user, remember=True, duration=datetime.timedelta(days=365))
-        return render_template('main.html', nickname=request.form['nickname'])
+        print("-----------"+user.nickname+"-------")
+        return redirect(url_for('route.main', nickname=user.nickname))
     
     
 @routing_object.route('/logout')

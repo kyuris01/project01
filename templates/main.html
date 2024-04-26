@@ -18,10 +18,11 @@
       <div class="nav_box">
         <div class="logo_box"><img src="../static/img/Lollipop.png" alt="사이트로고" /></div>
         <div class="session_box">
-          {% if user_email != null %}
-          <div class="register"><a href="{{ url_for('bpname.logout') }}">logout</a></div>
-          <a class="register" href="/main_page/withdraw">회원탈퇴</a>
-          <div class="register"> {{nickname}}님, 안녕하세요 </div>
+          {% if nickname != null %}
+          <div class="session_menu"> {{nickname}}님, 안녕하세요 </div>
+          <div class="session_menu"><a href="/routing/logout">logout</a></div>
+          <div class="session_menu"><a href="/routing/withdraw">회원탈퇴</a></div>
+          
           {% else %}
           <div class="session_menu"><a href="/routing/register_page">회원가입</a></div>
           <div class="session_menu"><a href="/routing/login_page">로그인</a></div>

@@ -9,7 +9,7 @@ class User(UserMixin):
         self.password = password
 
     def get_id(self):
-        return str(self.id)
+        return str(self.user_id)
     
     @staticmethod
     def get(user_id):
@@ -22,7 +22,7 @@ class User(UserMixin):
             db_cursor.close()
             return None
         print(user)
-        user = User(user_id=user[0], user_email=user[1], password=user[2])
+        user = User(user_id=user[0], nickname=user[1], user_email=user[2], password=user[3])
         db_cursor.close()
         return user
     
