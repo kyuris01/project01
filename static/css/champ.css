@@ -1,0 +1,13 @@
+.champ_box {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.champ_img {
+    margin-left:5rem;
+    margin-top: 5rem;
+}
+
+.champ_stat {
+    margin-top: 5rem;
+}

@@ -39,17 +39,17 @@ def index():
     Support=[]
     for i in range(len(datas["data"])):
         if "Fighter" in datas["data"][champion_name[i]]["tags"]:
-            Fighter.append("http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png")
+            Fighter.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
         if "Tank" in datas["data"][champion_name[i]]["tags"]:
-            Tank.append("http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png")
+            Tank.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
         if "Mage" in datas["data"][champion_name[i]]["tags"]:
-            Mage.append("http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png")
+            Mage.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
         if "Assassin" in datas["data"][champion_name[i]]["tags"]:
-            Assassin.append("http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png")    
+            Assassin.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
         if "Marksman" in datas["data"][champion_name[i]]["tags"]:
-            Marksman.append("http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png")
+            Marksman.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
         if "Support" in datas["data"][champion_name[i]]["tags"]:
-            Support.append("http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png")
+            Support.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
                                                                                                          #리스트가 빈 리스트로 초기화되었을 경우, 리스트의 인덱스에
                                                                                                         #직접값을 할당할수없다. 대신 append()메서드를 이용!
 

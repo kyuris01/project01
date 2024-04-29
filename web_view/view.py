@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, redirect, url_for, session
+from flask import Blueprint, request, render_template, redirect, url_for, session, flash
 from flask_login import login_user, current_user, logout_user
 from web_control.user_mgmt import User
 from web_control.session_mgmt import PageSession
@@ -15,25 +15,25 @@ def main():
     champion_name=[]
     for data in datas["data"]:
         champion_name.append(data)
-    Fighter = []
-    Tank =[]
-    Mage=[]
-    Assassin=[]
-    Marksman=[]
-    Support=[]
+    Fighter = {}
+    Tank ={}
+    Mage={}
+    Assassin={}
+    Marksman={}
+    Support={}
     for i in range(len(datas["data"])):
         if "Fighter" in datas["data"][champion_name[i]]["tags"]:
-            Fighter.append("http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png")
+            Fighter.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
         if "Tank" in datas["data"][champion_name[i]]["tags"]:
-            Tank.append("http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png")
+            Tank.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
         if "Mage" in datas["data"][champion_name[i]]["tags"]:
-            Mage.append("http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png")
+            Mage.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
         if "Assassin" in datas["data"][champion_name[i]]["tags"]:
-            Assassin.append("http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png")    
+            Assassin.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
         if "Marksman" in datas["data"][champion_name[i]]["tags"]:
-            Marksman.append("http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png")
+            Marksman.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
         if "Support" in datas["data"][champion_name[i]]["tags"]:
-            Support.append("http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png")
+            Support.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
     #server.py를 import해서 이미지리스트 변수 사용하는것의 문제점 --> blueprint경로들이 꼬임                                                                                                     
     if current_user.is_authenticated:
         PageSession.save_session_info(session['client_id'], current_user.user_email)
@@ -85,5 +85,22 @@ def logout():
 @routing_object.route('/withdraw')
 def withdraw():
     User.delete(current_user.user_id) #current_user객체를 이용해 현재 사용자의 정보에 접근가능
+    flash("회원탈퇴 완료!")
     return redirect(url_for('route.main'))
-        
+
+products = {
+    1: {'name': 'Product 1', 'description': 'Description for product 1'},
+    2: {'name': 'Product 2', 'description': 'Description for product 2'},
+    # 추가 상품 정보...
+}
+
+@routing_object.route('/champion/<string:champ_name>')
+def product_detail(champ_name):
+    #champ_name변수 이용해 해당 챔피언의 모든 데이터값 여기서 파싱한다. 파싱한값은 render_template으로 champ.html로 보내준다.
+    """
+    product = products.get(product_id)
+    if product:
+        return render_template('product_detail.html', product=product)
+    else:
+        return "상품을 찾을 수 없습니다."
+    """

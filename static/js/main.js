@@ -19,3 +19,14 @@ setInterval(() => {   //setInterval은 일정 시간 간격을 두고 함수를 
         i=0;
     }
 },2000)
+/*
+document.getElementsByClassName("champion").addEventListener("click", function() {
+    // 클릭한 이미지에 대한 데이터
+    var data =  
+    // 서버로 데이터를 전송하는 AJAX 요청
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/process_image_click", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(data));
+});
+*/
