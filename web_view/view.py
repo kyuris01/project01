@@ -2,7 +2,7 @@ from flask import Blueprint, request, render_template, redirect, url_for, sessio
 from flask_login import login_user, current_user, logout_user
 from web_control.user_mgmt import User
 from web_control.session_mgmt import PageSession
-import datetime, requests
+import datetime, requests, json
 
 
 routing_object = Blueprint('route', __name__) #블루프린트객체이름 = Blueprint(블루프린트이름, __name__)
@@ -10,29 +10,30 @@ routing_object = Blueprint('route', __name__) #블루프린트객체이름 = Blu
 
 @routing_object.route('/main') #메인페이지로 돌려보내는 로직
 def main():
-    datas = requests.get("https://ddragon.leagueoflegends.com/cdn/14.6.1/data/en_US/champion.json")
-    datas = datas.json()
+    with open('champion_data.json', 'r') as json_file:
+        champion_data = json.load(json_file)
+        
     champion_name=[]
-    for data in datas["data"]:
+    for data in champion_data["data"]:
         champion_name.append(data)
-    Fighter = {}
-    Tank ={}
-    Mage={}
-    Assassin={}
-    Marksman={}
-    Support={}
-    for i in range(len(datas["data"])):
-        if "Fighter" in datas["data"][champion_name[i]]["tags"]:
+    Fighter = []
+    Tank =[]
+    Mage=[]
+    Assassin=[]
+    Marksman=[]
+    Support=[]
+    for i in range(len(champion_data["data"])):
+        if "Fighter" in champion_data["data"][champion_name[i]]["tags"]:
             Fighter.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
-        if "Tank" in datas["data"][champion_name[i]]["tags"]:
+        if "Tank" in champion_data["data"][champion_name[i]]["tags"]:
             Tank.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
-        if "Mage" in datas["data"][champion_name[i]]["tags"]:
+        if "Mage" in champion_data["data"][champion_name[i]]["tags"]:
             Mage.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
-        if "Assassin" in datas["data"][champion_name[i]]["tags"]:
+        if "Assassin" in champion_data["data"][champion_name[i]]["tags"]:
             Assassin.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
-        if "Marksman" in datas["data"][champion_name[i]]["tags"]:
+        if "Marksman" in champion_data["data"][champion_name[i]]["tags"]:
             Marksman.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
-        if "Support" in datas["data"][champion_name[i]]["tags"]:
+        if "Support" in champion_data["data"][champion_name[i]]["tags"]:
             Support.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
     #server.py를 import해서 이미지리스트 변수 사용하는것의 문제점 --> blueprint경로들이 꼬임                                                                                                     
     if current_user.is_authenticated:
@@ -88,19 +89,52 @@ def withdraw():
     flash("회원탈퇴 완료!")
     return redirect(url_for('route.main'))
 
-products = {
-    1: {'name': 'Product 1', 'description': 'Description for product 1'},
-    2: {'name': 'Product 2', 'description': 'Description for product 2'},
-    # 추가 상품 정보...
-}
+
 
 @routing_object.route('/champion/<string:champ_name>')
 def product_detail(champ_name):
     #champ_name변수 이용해 해당 챔피언의 모든 데이터값 여기서 파싱한다. 파싱한값은 render_template으로 champ.html로 보내준다.
-    """
-    product = products.get(product_id)
-    if product:
-        return render_template('product_detail.html', product=product)
-    else:
-        return "상품을 찾을 수 없습니다."
-    """
+    with open('champion_data.json', 'r') as json_file:
+        champion_data = json.load(json_file)
+    
+    
+    # print("attack :", attack)
+    # print("defense :", defense)
+    # print("magic :", magic)
+    # print("difficulty :", difficulty)
+    # print("hp :", hp)
+    
+    attack = champion_data['data'][champ_name]['info']['attack']
+    defense = champion_data['data'][champ_name]['info']['defense']
+    magic = champion_data['data'][champ_name]['info']['magic']
+    difficulty = champion_data['data'][champ_name]['info']['difficulty']
+    hp = champion_data['data'][champ_name]['stats']['hp']
+    hpperlevel = champion_data['data'][champ_name]['stats']['hpperlevel']
+    mp = champion_data['data'][champ_name]['stats']['mp']
+    mpperlevel = champion_data['data'][champ_name]['stats']['mpperlevel']
+    movespeed = champion_data['data'][champ_name]['stats']['movespeed'] 
+    armor = champion_data['data'][champ_name]['stats']['armor']
+    armorperlevel = champion_data['data'][champ_name]['stats']['armorperlevel']
+    spellblock = champion_data['data'][champ_name]['stats']['spellblock']
+    spellblockperlevel = champion_data['data'][champ_name]['stats']['spellblockperlevel']
+    attackrange = champion_data['data'][champ_name]['stats']['attackrange']
+    hpregen = champion_data['data'][champ_name]['stats']['hpregen']
+    hpregenperlevel = champion_data['data'][champ_name]['stats']['hpregenperlevel']
+    mpregen = champion_data['data'][champ_name]['stats']['mpregen']
+    mpregenperlevel = champion_data['data'][champ_name]['stats']['mpregenperlevel']
+    crit = champion_data['data'][champ_name]['stats']['crit']
+    critperlevel = champion_data['data'][champ_name]['stats']['critperlevel']
+    attackdamage = champion_data['data'][champ_name]['stats']['attackdamage']
+    attackdamageperlevel = champion_data['data'][champ_name]['stats']['attackdamageperlevel']
+    attackspeedperlevel = champion_data['data'][champ_name]['stats']['attackspeedperlevel']
+    attackspeed = champion_data['data'][champ_name]['stats']['attackspeed']
+    champ_img = champion_data['data'][champ_name]['image']['full']
+    #챔피언 i의 모든 데이터를 변수에 할당하고, 이를 rendeR_template의 인자로 넣어서 리턴
+
+    return render_template('champ.html', champ_name=champ_name, attack=attack, defense=defense, magic=magic, difficulty=difficulty, hp=hp,
+                            hpperlevel=hpperlevel, mp=mp, mpperlevel=mpperlevel, movespeed=movespeed, armor=armor, armorperlevel=armorperlevel,
+                            spellblock=spellblock, spellblockperlevel=spellblockperlevel, attackrange=attackrange, hpregen=hpregen,
+                            hpregenperlevel=hpregenperlevel,mpregen=mpregen, mpregenperlevel=mpregenperlevel, crit=crit, critperlevel=critperlevel, 
+                            attackdamage=attackdamage, attackdamageperlevel=attackdamageperlevel, attackspeedperlevel=attackspeedperlevel, 
+                            attackspeed=attackspeed, champ_img=champ_img)
+       
