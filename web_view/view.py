@@ -1,12 +1,14 @@
 from flask import Blueprint, request, render_template, redirect, url_for, session, flash
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 from web_control.user_mgmt import User
 from web_control.session_mgmt import PageSession
+from db_model.mysql import conn_mysqldb
 import datetime, requests, json
 
 
 routing_object = Blueprint('route', __name__) #블루프린트객체이름 = Blueprint(블루프린트이름, __name__)
-
+glb_champ_name = ''
+posts = []
 
 @routing_object.route('/main') #메인페이지로 돌려보내는 로직
 def main():
@@ -24,17 +26,17 @@ def main():
     Support=[]
     for i in range(len(champion_data["data"])):
         if "Fighter" in champion_data["data"][champion_name[i]]["tags"]:
-            Fighter.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
+            Fighter.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
         if "Tank" in champion_data["data"][champion_name[i]]["tags"]:
-            Tank.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
+            Tank.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
         if "Mage" in champion_data["data"][champion_name[i]]["tags"]:
-            Mage.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
+            Mage.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
         if "Assassin" in champion_data["data"][champion_name[i]]["tags"]:
-            Assassin.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
+            Assassin.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
         if "Marksman" in champion_data["data"][champion_name[i]]["tags"]:
-            Marksman.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
+            Marksman.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
         if "Support" in champion_data["data"][champion_name[i]]["tags"]:
-            Support.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/12.7.1/img/champion/" + champion_name[i] + ".png"])
+            Support.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
     #server.py를 import해서 이미지리스트 변수 사용하는것의 문제점 --> blueprint경로들이 꼬임                                                                                                     
     if current_user.is_authenticated:
         PageSession.save_session_info(session['client_id'], current_user.user_email)
@@ -73,8 +75,8 @@ def member_check():
     if user == None: #회원이 아닌 사용자의 로그인
         return render_template('login.html', validation=False)
     else:
-        login_user(user, remember=True, duration=datetime.timedelta(days=365))
-        print("-----------"+user.nickname+"-------")
+        login_user(user, remember=True, duration=datetime.timedelta(days=365)) #사용자 세션 생성
+        #print("-----------"+user.nickname+"-------")
         return redirect(url_for('route.main', nickname=user.nickname))
     
     
@@ -92,11 +94,14 @@ def withdraw():
 
 
 @routing_object.route('/champion/<string:champ_name>')
+@login_required
 def product_detail(champ_name):
     #champ_name변수 이용해 해당 챔피언의 모든 데이터값 여기서 파싱한다. 파싱한값은 render_template으로 champ.html로 보내준다.
+    
     with open('champion_data.json', 'r') as json_file:
         champion_data = json.load(json_file)
-    
+    global glb_champ_name #python에서 전역변수를 사용하기 위해서는 다음과같이 global키워드와 함께 재선언을 해줘야한다
+    glb_champ_name = champ_name
     
     # print("attack :", attack)
     # print("defense :", defense)
@@ -129,12 +134,40 @@ def product_detail(champ_name):
     attackspeedperlevel = champion_data['data'][champ_name]['stats']['attackspeedperlevel']
     attackspeed = champion_data['data'][champ_name]['stats']['attackspeed']
     champ_img = champion_data['data'][champ_name]['image']['full']
-    #챔피언 i의 모든 데이터를 변수에 할당하고, 이를 rendeR_template의 인자로 넣어서 리턴
+    #챔피언 i의 모든 데이터를 변수에 할당하고, 이를 render_template의 인자로 넣어서 리턴
 
     return render_template('champ.html', champ_name=champ_name, attack=attack, defense=defense, magic=magic, difficulty=difficulty, hp=hp,
                             hpperlevel=hpperlevel, mp=mp, mpperlevel=mpperlevel, movespeed=movespeed, armor=armor, armorperlevel=armorperlevel,
                             spellblock=spellblock, spellblockperlevel=spellblockperlevel, attackrange=attackrange, hpregen=hpregen,
                             hpregenperlevel=hpregenperlevel,mpregen=mpregen, mpregenperlevel=mpregenperlevel, crit=crit, critperlevel=critperlevel, 
                             attackdamage=attackdamage, attackdamageperlevel=attackdamageperlevel, attackspeedperlevel=attackspeedperlevel, 
-                            attackspeed=attackspeed, champ_img=champ_img)
-       
+                            attackspeed=attackspeed, champ_img=champ_img, posts=posts)
+
+@routing_object.route('/post', methods=['GET','POST'])
+def post():
+    mysql_db=conn_mysqldb()
+    db_cursor=mysql_db.cursor()
+    global posts
+    
+    if request.method == 'POST':
+        #print("POST TEST")
+        nickname = current_user.nickname
+        #print(nickname)
+        content = request.form['content']
+        sql = "INSERT INTO user_post (content, writer) VALUES (%s, %s)" 
+        db_cursor.execute(sql, (content, nickname))                                
+        mysql_db.commit()
+        sql = "SELECT content, writer, wr_date FROM user_post ORDER BY wr_date DESC"
+        db_cursor.execute(sql)
+        posts = db_cursor.fetchall() #fetchall()은 SELECT 쿼리 이후에 결과 집합을 가져올 때 사용되며, INSERT 쿼리 후에는 사용할 수 없다.
+        #내가 자꾸 insert하고나서 fetch하려고해서 빈 객체가 db로부터 오는것이었다...
+
+    else:
+        sql = "SELECT content, writer, wr_date FROM user_post ORDER BY wr_date DESC"
+        db_cursor.execute(sql)
+        posts = db_cursor.fetchall() #cursor.fetchall()은 2차원 배열형태로 저장하므로 각 행별결과를 보려면 인덱스로 접근
+    
+    print('posts: ', posts[0])
+    print('glb_champ_name: ', glb_champ_name)   
+    db_cursor.close()
+    return redirect(url_for('route.product_detail', champ_name = glb_champ_name))

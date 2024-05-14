@@ -110,7 +110,31 @@
                 </table>
             </div>
         </div>
+        <div class="champ_memo">
+            <table class="table">
+                <tr>
+                    <th>내용</th>
+                    <th>작성자</th>
+                    <th>작성시간</th>
+                </tr>
+                {% for obj in posts%}
+                <tbody>
+                    <tr>
+                        <td>{{obj[0]}}</td>
+                        <td>{{obj[1]}}</td>
+                        <td>{{obj[2]}}</td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            <form method="post" action="/routing/post">
+                <input type="text" name="content">
+                <button>write</button>
+            </form>
+            
+        </div>
     </div>
+    
     <!-- <script src="/static/js/level_changer.js"></script> -->
     <script>
         const levelUp = document.getElementById("up");
