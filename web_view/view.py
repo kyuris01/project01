@@ -135,6 +135,14 @@ def product_detail(champ_name):
     attackspeed = champion_data['data'][champ_name]['stats']['attackspeed']
     champ_img = champion_data['data'][champ_name]['image']['full']
     #챔피언 i의 모든 데이터를 변수에 할당하고, 이를 render_template의 인자로 넣어서 리턴
+    
+    #처음 챔피언 상세페이지에 접속했을때 포스트 출력을 위한 로직
+    mysql_db=conn_mysqldb()
+    db_cursor=mysql_db.cursor()
+    global posts
+    sql = "SELECT content, writer, wr_date FROM user_post WHERE champ = %s ORDER BY wr_date DESC"
+    db_cursor.execute(sql, (glb_champ_name))
+    posts = db_cursor.fetchall()
 
     return render_template('champ.html', champ_name=champ_name, attack=attack, defense=defense, magic=magic, difficulty=difficulty, hp=hp,
                             hpperlevel=hpperlevel, mp=mp, mpperlevel=mpperlevel, movespeed=movespeed, armor=armor, armorperlevel=armorperlevel,
@@ -154,20 +162,20 @@ def post():
         nickname = current_user.nickname
         #print(nickname)
         content = request.form['content']
-        sql = "INSERT INTO user_post (content, writer) VALUES (%s, %s)" 
-        db_cursor.execute(sql, (content, nickname))                                
+        sql = "INSERT INTO user_post (content, writer, champ) VALUES (%s, %s, %s)" 
+        db_cursor.execute(sql, (content, nickname, glb_champ_name))                                
         mysql_db.commit()
-        sql = "SELECT content, writer, wr_date FROM user_post ORDER BY wr_date DESC"
-        db_cursor.execute(sql)
+        sql = "SELECT content, writer, wr_date FROM user_post WHERE champ = %s ORDER BY wr_date DESC"
+        db_cursor.execute(sql, (glb_champ_name))
         posts = db_cursor.fetchall() #fetchall()은 SELECT 쿼리 이후에 결과 집합을 가져올 때 사용되며, INSERT 쿼리 후에는 사용할 수 없다.
         #내가 자꾸 insert하고나서 fetch하려고해서 빈 객체가 db로부터 오는것이었다...
 
     else:
-        sql = "SELECT content, writer, wr_date FROM user_post ORDER BY wr_date DESC"
-        db_cursor.execute(sql)
+        sql = "SELECT content, writer, wr_date FROM user_post WHERE champ = %s ORDER BY wr_date DESC"
+        db_cursor.execute(sql, (glb_champ_name))
         posts = db_cursor.fetchall() #cursor.fetchall()은 2차원 배열형태로 저장하므로 각 행별결과를 보려면 인덱스로 접근
     
-    print('posts: ', posts[0])
+    
     print('glb_champ_name: ', glb_champ_name)   
     db_cursor.close()
     return redirect(url_for('route.product_detail', champ_name = glb_champ_name))
