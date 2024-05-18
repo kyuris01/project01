@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, make_response, session, request
+from flask import Flask, jsonify, render_template, make_response, session, request, flash, redirect, url_for
 from flask_cors import CORS
 from flask_login import LoginManager, login_user, logout_user
 from web_view import view
@@ -9,7 +9,7 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' #https만을 지원하는 설정
 
 app = Flask(__name__, static_url_path='/static')
 CORS(app) #Cross Origin Resource Sharing 을 위한 코드()
-app.secret_key = 'chris_server'
+app.secret_key = 'chris_server2'
 app.register_blueprint(view.routing_object, url_prefix='/routing') #url_prefix = 기본경로명
 
 login_manager = LoginManager()
@@ -22,7 +22,8 @@ def load_user(user_id):
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    return make_response(jsonify(success=False), 401)
+    message = "로그인 후 사용가능합니다!"
+    return redirect(url_for("route.main", errmsg=message))   #redirect(url_for('route.login_page'))    #make_response(jsonify(success=False), 401)
 
 @app.route("/")
 def index():
@@ -44,7 +45,7 @@ def index():
     Assassin=[]
     Marksman=[]
     Support=[]
-    for i in range(len(champion_data["data"])):
+    for i in range(len(champion_data["data"])): #[["aatrox", ".....png"],[],...]
         if "Fighter" in champion_data["data"][champion_name[i]]["tags"]:
             Fighter.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
         if "Tank" in champion_data["data"][champion_name[i]]["tags"]:

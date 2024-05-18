@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, redirect, url_for, session, flash
+from flask import Blueprint, request, render_template, redirect, url_for, session, flash, jsonify
 from flask_login import login_user, current_user, logout_user, login_required
 from web_control.user_mgmt import User
 from web_control.session_mgmt import PageSession
@@ -10,8 +10,8 @@ routing_object = Blueprint('route', __name__) #블루프린트객체이름 = Blu
 glb_champ_name = ''
 posts = []
 
-@routing_object.route('/main') #메인페이지로 돌려보내는 로직
-def main():
+@routing_object.route('/main/<errmsg>') #메인페이지로 돌려보내는 로직
+def main(errmsg):
     with open('champion_data.json', 'r') as json_file:
         champion_data = json.load(json_file)
         
@@ -40,10 +40,10 @@ def main():
     #server.py를 import해서 이미지리스트 변수 사용하는것의 문제점 --> blueprint경로들이 꼬임                                                                                                     
     if current_user.is_authenticated:
         PageSession.save_session_info(session['client_id'], current_user.user_email)
-        return render_template('main.html', nickname=current_user.nickname, Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support) #단순히 main.html을 render하면 server.py에서 들여왔던 이미지들은 로딩이 안되게됨.
+        return render_template('main.html', nickname=current_user.nickname, Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, errmsg=errmsg) #단순히 main.html을 render하면 server.py에서 들여왔던 이미지들은 로딩이 안되게됨.
     else:
         PageSession.save_session_info(session['client_id'], 'anonymous')
-        return render_template('main.html', Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support)
+        return render_template('main.html', Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, errmsg=errmsg)
     
 
 @routing_object.route('/register_page') #회원가입 페이지 접근 로직
@@ -55,6 +55,9 @@ def register_page():
 def login_page():
     return render_template('login.html')
 
+@routing_object.route('return_address')
+def return_address():
+    return jsonify({"result" : "localhost:5000/routing/login_page"})
 
 @routing_object.route('/register_function', methods=['GET','POST'])
 def register_function():
@@ -65,7 +68,6 @@ def register_function():
         if user == 'already exist':
             return render_template('register.html', info1='exist', info2=request.form['user_email'])
         else:
-            print("hihi")
             return render_template("register.html", info1='new', info2=request.form['user_email'])
    
     
@@ -77,19 +79,19 @@ def member_check():
     else:
         login_user(user, remember=True, duration=datetime.timedelta(days=365)) #사용자 세션 생성
         #print("-----------"+user.nickname+"-------")
-        return redirect(url_for('route.main', nickname=user.nickname))
+        return redirect(url_for('route.main', errmsg="None")) #redirect(url_for('route.main', nickname=user.nickname))
     
     
 @routing_object.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('route.main')) #redirect(url_for('함수이름'))
+    return redirect(url_for('route.main', errmsg="None")) #redirect(url_for('함수이름'))
 
 @routing_object.route('/withdraw')
 def withdraw():
     User.delete(current_user.user_id) #current_user객체를 이용해 현재 사용자의 정보에 접근가능
     flash("회원탈퇴 완료!")
-    return redirect(url_for('route.main'))
+    return redirect(url_for('route.main', errmsg="None"))
 
 
 
@@ -97,59 +99,66 @@ def withdraw():
 @login_required
 def product_detail(champ_name):
     #champ_name변수 이용해 해당 챔피언의 모든 데이터값 여기서 파싱한다. 파싱한값은 render_template으로 champ.html로 보내준다.
+    #if current_user.is_authenticated:
+        with open('champion_data.json', 'r') as json_file:
+            champion_data = json.load(json_file)
+        global glb_champ_name #python에서 전역변수를 사용하기 위해서는 다음과같이 global키워드와 함께 재선언을 해줘야한다
+        glb_champ_name = champ_name
     
-    with open('champion_data.json', 'r') as json_file:
-        champion_data = json.load(json_file)
-    global glb_champ_name #python에서 전역변수를 사용하기 위해서는 다음과같이 global키워드와 함께 재선언을 해줘야한다
-    glb_champ_name = champ_name
-    
-    # print("attack :", attack)
-    # print("defense :", defense)
-    # print("magic :", magic)
-    # print("difficulty :", difficulty)
-    # print("hp :", hp)
-    
-    attack = champion_data['data'][champ_name]['info']['attack']
-    defense = champion_data['data'][champ_name]['info']['defense']
-    magic = champion_data['data'][champ_name]['info']['magic']
-    difficulty = champion_data['data'][champ_name]['info']['difficulty']
-    hp = champion_data['data'][champ_name]['stats']['hp']
-    hpperlevel = champion_data['data'][champ_name]['stats']['hpperlevel']
-    mp = champion_data['data'][champ_name]['stats']['mp']
-    mpperlevel = champion_data['data'][champ_name]['stats']['mpperlevel']
-    movespeed = champion_data['data'][champ_name]['stats']['movespeed'] 
-    armor = champion_data['data'][champ_name]['stats']['armor']
-    armorperlevel = champion_data['data'][champ_name]['stats']['armorperlevel']
-    spellblock = champion_data['data'][champ_name]['stats']['spellblock']
-    spellblockperlevel = champion_data['data'][champ_name]['stats']['spellblockperlevel']
-    attackrange = champion_data['data'][champ_name]['stats']['attackrange']
-    hpregen = champion_data['data'][champ_name]['stats']['hpregen']
-    hpregenperlevel = champion_data['data'][champ_name]['stats']['hpregenperlevel']
-    mpregen = champion_data['data'][champ_name]['stats']['mpregen']
-    mpregenperlevel = champion_data['data'][champ_name]['stats']['mpregenperlevel']
-    crit = champion_data['data'][champ_name]['stats']['crit']
-    critperlevel = champion_data['data'][champ_name]['stats']['critperlevel']
-    attackdamage = champion_data['data'][champ_name]['stats']['attackdamage']
-    attackdamageperlevel = champion_data['data'][champ_name]['stats']['attackdamageperlevel']
-    attackspeedperlevel = champion_data['data'][champ_name]['stats']['attackspeedperlevel']
-    attackspeed = champion_data['data'][champ_name]['stats']['attackspeed']
-    champ_img = champion_data['data'][champ_name]['image']['full']
-    #챔피언 i의 모든 데이터를 변수에 할당하고, 이를 render_template의 인자로 넣어서 리턴
-    
-    #처음 챔피언 상세페이지에 접속했을때 포스트 출력을 위한 로직
-    mysql_db=conn_mysqldb()
-    db_cursor=mysql_db.cursor()
-    global posts
-    sql = "SELECT content, writer, wr_date FROM user_post WHERE champ = %s ORDER BY wr_date DESC"
-    db_cursor.execute(sql, (glb_champ_name))
-    posts = db_cursor.fetchall()
+        # print("attack :", attack)
+        # print("defense :", defense)
+        # print("magic :", magic)
+        # print("difficulty :", difficulty)
+        # print("hp :", hp)
+        
+        attack = champion_data['data'][champ_name]['info']['attack']
+        defense = champion_data['data'][champ_name]['info']['defense']
+        magic = champion_data['data'][champ_name]['info']['magic']
+        difficulty = champion_data['data'][champ_name]['info']['difficulty']
+        hp = champion_data['data'][champ_name]['stats']['hp']
+        hpperlevel = champion_data['data'][champ_name]['stats']['hpperlevel']
+        mp = champion_data['data'][champ_name]['stats']['mp']
+        mpperlevel = champion_data['data'][champ_name]['stats']['mpperlevel']
+        movespeed = champion_data['data'][champ_name]['stats']['movespeed'] 
+        armor = champion_data['data'][champ_name]['stats']['armor']
+        armorperlevel = champion_data['data'][champ_name]['stats']['armorperlevel']
+        spellblock = champion_data['data'][champ_name]['stats']['spellblock']
+        spellblockperlevel = champion_data['data'][champ_name]['stats']['spellblockperlevel']
+        attackrange = champion_data['data'][champ_name]['stats']['attackrange']
+        hpregen = champion_data['data'][champ_name]['stats']['hpregen']
+        hpregenperlevel = champion_data['data'][champ_name]['stats']['hpregenperlevel']
+        mpregen = champion_data['data'][champ_name]['stats']['mpregen']
+        mpregenperlevel = champion_data['data'][champ_name]['stats']['mpregenperlevel']
+        crit = champion_data['data'][champ_name]['stats']['crit']
+        critperlevel = champion_data['data'][champ_name]['stats']['critperlevel']
+        attackdamage = champion_data['data'][champ_name]['stats']['attackdamage']
+        attackdamageperlevel = champion_data['data'][champ_name]['stats']['attackdamageperlevel']
+        attackspeedperlevel = champion_data['data'][champ_name]['stats']['attackspeedperlevel']
+        attackspeed = champion_data['data'][champ_name]['stats']['attackspeed']
+        champ_img = champion_data['data'][champ_name]['image']['full']
+        #챔피언 i의 모든 데이터를 변수에 할당하고, 이를 render_template의 인자로 넣어서 리턴
+        
+        #처음 챔피언 상세페이지에 접속했을때 포스트 출력을 위한 로직
+        mysql_db=conn_mysqldb()
+        db_cursor=mysql_db.cursor()
+        global posts
+        sql = "SELECT content, writer, wr_date FROM user_post WHERE champ = %s ORDER BY wr_date DESC"
+        db_cursor.execute(sql, (glb_champ_name))
+        posts = db_cursor.fetchall()
 
-    return render_template('champ.html', champ_name=champ_name, attack=attack, defense=defense, magic=magic, difficulty=difficulty, hp=hp,
-                            hpperlevel=hpperlevel, mp=mp, mpperlevel=mpperlevel, movespeed=movespeed, armor=armor, armorperlevel=armorperlevel,
-                            spellblock=spellblock, spellblockperlevel=spellblockperlevel, attackrange=attackrange, hpregen=hpregen,
-                            hpregenperlevel=hpregenperlevel,mpregen=mpregen, mpregenperlevel=mpregenperlevel, crit=crit, critperlevel=critperlevel, 
-                            attackdamage=attackdamage, attackdamageperlevel=attackdamageperlevel, attackspeedperlevel=attackspeedperlevel, 
-                            attackspeed=attackspeed, champ_img=champ_img, posts=posts)
+        return render_template('champ.html', champ_name=champ_name, attack=attack, defense=defense, magic=magic, difficulty=difficulty, hp=hp,
+                                hpperlevel=hpperlevel, mp=mp, mpperlevel=mpperlevel, movespeed=movespeed, armor=armor, armorperlevel=armorperlevel,
+                                spellblock=spellblock, spellblockperlevel=spellblockperlevel, attackrange=attackrange, hpregen=hpregen,
+                                hpregenperlevel=hpregenperlevel,mpregen=mpregen, mpregenperlevel=mpregenperlevel, crit=crit, critperlevel=critperlevel, 
+                                attackdamage=attackdamage, attackdamageperlevel=attackdamageperlevel, attackspeedperlevel=attackspeedperlevel, 
+                                attackspeed=attackspeed, champ_img=champ_img, posts=posts)
+    
+    #else:
+        #flash("로그인 후 이용가능합니다!")
+        #return redirect(url_for("route.main"))
+    
+    
+    
 
 @routing_object.route('/post', methods=['GET','POST'])
 def post():
