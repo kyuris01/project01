@@ -164,10 +164,10 @@
 <main class="form-signin w-100 m-auto">
   {% if info1 == 'exist' %}
   <div><h1>{{ info2 }}님은 이미 가입한 회원입니다.</h1>
-    <button class="w-100 btn btn-lg btn-light" type="submit"><a href="/routing/main">메인페이지로</a></button></div>
+    <button class="w-100 btn btn-lg btn-light" type="submit"><a href="/routing/main/normal">메인페이지로</a></button></div>
   {% elif info1 =='new' %}
   <div><h1>{{ info2 }}님<br> 회원가입을 축하합니다!</h1>
-    <button class="w-100 btn btn-lg btn-light" type="submit"><a href="/routing/main">메인페이지로</a></button></div>
+    <button class="w-100 btn btn-lg btn-light" type="submit"><a href="/routing/main/normal">메인페이지로</a></button></div>
   {% else %}
   <form method="post" action="/routing/register_function">
     <img class="mb-4" src="../static/img/LolMemo_logo.png" alt="" width="150" height="150">

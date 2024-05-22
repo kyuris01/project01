@@ -1,8 +1,9 @@
 from flask import Flask, jsonify, render_template, make_response, session, request, flash, redirect, url_for
 from flask_cors import CORS
-from flask_login import LoginManager, login_user, logout_user
+from flask_login import LoginManager, login_user, logout_user, current_user
 from web_view import view
 from web_control.user_mgmt import User
+from web_control.session_mgmt import PageSession
 import os, requests, json
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' #https만을 지원하는 설정을 http에서 테스트할때 필요한설정
@@ -61,7 +62,13 @@ def index():
                                                                                                          #리스트가 빈 리스트로 초기화되었을 경우, 리스트의 인덱스에
                                                                                                         #직접값을 할당할수없다. 대신 append()메서드를 이용!
 
-    return render_template('main.html', Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support)
+    
+    if current_user.is_authenticated:
+        PageSession.save_session_info(session['client_id'], current_user.user_email)
+        return render_template('main.html', nickname=current_user.nickname, Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, errmsg="normal") #단순히 main.html을 render하면 server.py에서 들여왔던 이미지들은 로딩이 안되게됨.
+    else:
+        PageSession.save_session_info(session['client_id'], 'anonymous')
+        return render_template('main.html', Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, errmsg="normal")
 
 @app.before_request
 def app_before_request():
@@ -69,4 +76,4 @@ def app_before_request():
         session['client_id'] = request.environ.get('HTTP_X_REAL_IP', request.remote_addr) #http request의 IP정보를 session객체에 추가해준다.
 
 if __name__ == '__main__': #서버 띄우는건 맨 마지막줄에서 해야한다.
-    app.run(host='127.0.0.1', port='5000')
+    app.run(debug=True, host='127.0.0.1', port='5000')

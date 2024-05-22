@@ -1,5 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, url_for, session, flash, jsonify
 from flask_login import login_user, current_user, logout_user, login_required
+from flask_paginate import Pagination, get_page_args
 from web_control.user_mgmt import User
 from web_control.session_mgmt import PageSession
 from db_model.mysql import conn_mysqldb
@@ -79,19 +80,19 @@ def member_check():
     else:
         login_user(user, remember=True, duration=datetime.timedelta(days=365)) #사용자 세션 생성
         #print("-----------"+user.nickname+"-------")
-        return redirect(url_for('route.main', errmsg="None")) #redirect(url_for('route.main', nickname=user.nickname))
+        return redirect(url_for('route.main', errmsg="normal")) #redirect(url_for('route.main', nickname=user.nickname))
     
     
 @routing_object.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('route.main', errmsg="None")) #redirect(url_for('함수이름'))
+    return redirect(url_for('route.main', errmsg="normal")) #redirect(url_for('함수이름'))
 
 @routing_object.route('/withdraw')
 def withdraw():
     User.delete(current_user.user_id) #current_user객체를 이용해 현재 사용자의 정보에 접근가능
     flash("회원탈퇴 완료!")
-    return redirect(url_for('route.main', errmsg="None"))
+    return redirect(url_for('route.main', errmsg="normal"))
 
 
 
@@ -100,58 +101,76 @@ def withdraw():
 def product_detail(champ_name):
     #champ_name변수 이용해 해당 챔피언의 모든 데이터값 여기서 파싱한다. 파싱한값은 render_template으로 champ.html로 보내준다.
     #if current_user.is_authenticated:
-        with open('champion_data.json', 'r') as json_file:
-            champion_data = json.load(json_file)
-        global glb_champ_name #python에서 전역변수를 사용하기 위해서는 다음과같이 global키워드와 함께 재선언을 해줘야한다
-        glb_champ_name = champ_name
-    
-        # print("attack :", attack)
-        # print("defense :", defense)
-        # print("magic :", magic)
-        # print("difficulty :", difficulty)
-        # print("hp :", hp)
-        
-        attack = champion_data['data'][champ_name]['info']['attack']
-        defense = champion_data['data'][champ_name]['info']['defense']
-        magic = champion_data['data'][champ_name]['info']['magic']
-        difficulty = champion_data['data'][champ_name]['info']['difficulty']
-        hp = champion_data['data'][champ_name]['stats']['hp']
-        hpperlevel = champion_data['data'][champ_name]['stats']['hpperlevel']
-        mp = champion_data['data'][champ_name]['stats']['mp']
-        mpperlevel = champion_data['data'][champ_name]['stats']['mpperlevel']
-        movespeed = champion_data['data'][champ_name]['stats']['movespeed'] 
-        armor = champion_data['data'][champ_name]['stats']['armor']
-        armorperlevel = champion_data['data'][champ_name]['stats']['armorperlevel']
-        spellblock = champion_data['data'][champ_name]['stats']['spellblock']
-        spellblockperlevel = champion_data['data'][champ_name]['stats']['spellblockperlevel']
-        attackrange = champion_data['data'][champ_name]['stats']['attackrange']
-        hpregen = champion_data['data'][champ_name]['stats']['hpregen']
-        hpregenperlevel = champion_data['data'][champ_name]['stats']['hpregenperlevel']
-        mpregen = champion_data['data'][champ_name]['stats']['mpregen']
-        mpregenperlevel = champion_data['data'][champ_name]['stats']['mpregenperlevel']
-        crit = champion_data['data'][champ_name]['stats']['crit']
-        critperlevel = champion_data['data'][champ_name]['stats']['critperlevel']
-        attackdamage = champion_data['data'][champ_name]['stats']['attackdamage']
-        attackdamageperlevel = champion_data['data'][champ_name]['stats']['attackdamageperlevel']
-        attackspeedperlevel = champion_data['data'][champ_name]['stats']['attackspeedperlevel']
-        attackspeed = champion_data['data'][champ_name]['stats']['attackspeed']
-        champ_img = champion_data['data'][champ_name]['image']['full']
-        #챔피언 i의 모든 데이터를 변수에 할당하고, 이를 render_template의 인자로 넣어서 리턴
-        
-        #처음 챔피언 상세페이지에 접속했을때 포스트 출력을 위한 로직
-        mysql_db=conn_mysqldb()
-        db_cursor=mysql_db.cursor()
-        global posts
-        sql = "SELECT content, writer, wr_date FROM user_post WHERE champ = %s ORDER BY wr_date DESC"
-        db_cursor.execute(sql, (glb_champ_name))
-        posts = db_cursor.fetchall()
+    with open('champion_data.json', 'r') as json_file:
+        champion_data = json.load(json_file)
+    global glb_champ_name #python에서 전역변수를 사용하기 위해서는 다음과같이 global키워드와 함께 재선언을 해줘야한다
+    glb_champ_name = champ_name
 
-        return render_template('champ.html', champ_name=champ_name, attack=attack, defense=defense, magic=magic, difficulty=difficulty, hp=hp,
-                                hpperlevel=hpperlevel, mp=mp, mpperlevel=mpperlevel, movespeed=movespeed, armor=armor, armorperlevel=armorperlevel,
-                                spellblock=spellblock, spellblockperlevel=spellblockperlevel, attackrange=attackrange, hpregen=hpregen,
-                                hpregenperlevel=hpregenperlevel,mpregen=mpregen, mpregenperlevel=mpregenperlevel, crit=crit, critperlevel=critperlevel, 
-                                attackdamage=attackdamage, attackdamageperlevel=attackdamageperlevel, attackspeedperlevel=attackspeedperlevel, 
-                                attackspeed=attackspeed, champ_img=champ_img, posts=posts)
+    # print("attack :", attack)
+    # print("defense :", defense)
+    # print("magic :", magic)
+    # print("difficulty :", difficulty)
+    # print("hp :", hp)
+    
+    attack = champion_data['data'][champ_name]['info']['attack']
+    defense = champion_data['data'][champ_name]['info']['defense']
+    magic = champion_data['data'][champ_name]['info']['magic']
+    difficulty = champion_data['data'][champ_name]['info']['difficulty']
+    hp = champion_data['data'][champ_name]['stats']['hp']
+    hpperlevel = champion_data['data'][champ_name]['stats']['hpperlevel']
+    mp = champion_data['data'][champ_name]['stats']['mp']
+    mpperlevel = champion_data['data'][champ_name]['stats']['mpperlevel']
+    movespeed = champion_data['data'][champ_name]['stats']['movespeed'] 
+    armor = champion_data['data'][champ_name]['stats']['armor']
+    armorperlevel = champion_data['data'][champ_name]['stats']['armorperlevel']
+    spellblock = champion_data['data'][champ_name]['stats']['spellblock']
+    spellblockperlevel = champion_data['data'][champ_name]['stats']['spellblockperlevel']
+    attackrange = champion_data['data'][champ_name]['stats']['attackrange']
+    hpregen = champion_data['data'][champ_name]['stats']['hpregen']
+    hpregenperlevel = champion_data['data'][champ_name]['stats']['hpregenperlevel']
+    mpregen = champion_data['data'][champ_name]['stats']['mpregen']
+    mpregenperlevel = champion_data['data'][champ_name]['stats']['mpregenperlevel']
+    crit = champion_data['data'][champ_name]['stats']['crit']
+    critperlevel = champion_data['data'][champ_name]['stats']['critperlevel']
+    attackdamage = champion_data['data'][champ_name]['stats']['attackdamage']
+    attackdamageperlevel = champion_data['data'][champ_name]['stats']['attackdamageperlevel']
+    attackspeedperlevel = champion_data['data'][champ_name]['stats']['attackspeedperlevel']
+    attackspeed = champion_data['data'][champ_name]['stats']['attackspeed']
+    champ_img = champion_data['data'][champ_name]['image']['full']
+    #챔피언 i의 모든 데이터를 변수에 할당하고, 이를 render_template의 인자로 넣어서 리턴
+    
+    #처음 챔피언 상세페이지에 접속했을때 포스트 출력을 위한 로직
+    mysql_db=conn_mysqldb()
+    db_cursor=mysql_db.cursor()
+    global posts
+    sql = "SELECT content, writer, wr_date FROM user_post WHERE champ = %s ORDER BY wr_date DESC"
+    db_cursor.execute(sql, (glb_champ_name))
+    posts = db_cursor.fetchall()
+    
+    page = request.args.get('page', 1, type=int)
+    per_page = 5
+    start = (page - 1) * per_page
+    end = start + per_page
+    total_pages = (len(posts) + per_page - 1) // per_page
+    
+    items_on_page = posts[start:end]
+    
+    return render_template('champ.html', items_on_page=items_on_page, total_pages=total_pages, page=page, champ_name=champ_name, attack=attack, defense=defense, magic=magic, difficulty=difficulty, hp=hp,
+                            hpperlevel=hpperlevel, mp=mp, mpperlevel=mpperlevel, movespeed=movespeed, armor=armor, armorperlevel=armorperlevel,
+                            spellblock=spellblock, spellblockperlevel=spellblockperlevel, attackrange=attackrange, hpregen=hpregen,
+                            hpregenperlevel=hpregenperlevel,mpregen=mpregen, mpregenperlevel=mpregenperlevel, crit=crit, critperlevel=critperlevel, 
+                            attackdamage=attackdamage, attackdamageperlevel=attackdamageperlevel, attackspeedperlevel=attackspeedperlevel, 
+                            attackspeed=attackspeed, champ_img=champ_img)
+        
+        
+        
+
+    # return render_template('champ.html', champ_name=champ_name, attack=attack, defense=defense, magic=magic, difficulty=difficulty, hp=hp,
+    #                         hpperlevel=hpperlevel, mp=mp, mpperlevel=mpperlevel, movespeed=movespeed, armor=armor, armorperlevel=armorperlevel,
+    #                         spellblock=spellblock, spellblockperlevel=spellblockperlevel, attackrange=attackrange, hpregen=hpregen,
+    #                         hpregenperlevel=hpregenperlevel,mpregen=mpregen, mpregenperlevel=mpregenperlevel, crit=crit, critperlevel=critperlevel, 
+    #                         attackdamage=attackdamage, attackdamageperlevel=attackdamageperlevel, attackspeedperlevel=attackspeedperlevel, 
+    #                         attackspeed=attackspeed, champ_img=champ_img, posts=posts)
     
     #else:
         #flash("로그인 후 이용가능합니다!")

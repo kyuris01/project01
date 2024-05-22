@@ -1,3 +1,8 @@
+body {
+    background-image: url('/static/img/galaxy.jpg');
+    background-size: cover;
+}
+
 .champ_box {
     display: flex;
     justify-content: flex-start;
@@ -10,10 +15,21 @@
 
 .champ_stat {
     margin-top: 5rem;
+    margin-left: 5rem;
+}
+
+#champ_level {
+    font-size: 1.5rem;
+    color: white;
+    margin-left: 1rem;
 }
 
 table {
     border: 1px solid #444444;
+    border-collapse: collapse;
+    border-spacing: 5px 5px;
+    background-color: white;
+    width: 20rem;
 }
 
 th, td {
@@ -21,9 +37,15 @@ th, td {
 }
 
 .level_box {
-    
+    height: 3rem;
+    display:flex;
 }
 
 .champ_memo {
-    margin-top: 5rem;
+    margin-top: 8rem;
+    margin-left: 5rem;
+}
+
+.main_page_button {
+    margin-top: 1rem;
 }
