@@ -147,6 +147,7 @@ def product_detail(champ_name):
     db_cursor.execute(sql, (glb_champ_name))
     posts = db_cursor.fetchall()
     
+    #페이지네이션을 위한 코드
     page = request.args.get('page', 1, type=int)
     per_page = 5
     start = (page - 1) * per_page

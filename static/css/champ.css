@@ -1,51 +1,62 @@
 body {
-    background-image: url('/static/img/galaxy.jpg');
-    background-size: cover;
+  background-image: url("/static/img/galaxy.jpg");
+  background-size: cover;
+
+  font-family: "Poor Story", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .champ_box {
-    display: flex;
-    justify-content: flex-start;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .champ_img {
-    margin-left:5rem;
-    margin-top: 5rem;
+  margin-left: 5rem;
+  margin-top: 5rem;
 }
 
 .champ_stat {
-    margin-top: 5rem;
-    margin-left: 5rem;
+  margin-top: 5rem;
+  margin-left: 5rem;
 }
 
 #champ_level {
-    font-size: 1.5rem;
-    color: white;
-    margin-left: 1rem;
+  font-size: 1.5rem;
+  color: white;
+  margin-left: 1rem;
+}
+/*
+.table-rounded {
+  border: 2px solid black;
+  border-radius: 5%;
+}
+*/
+table,
+th,
+td {
+  border: 3px solid #444444;
 }
 
 table {
-    border: 1px solid #444444;
-    border-collapse: collapse;
-    border-spacing: 5px 5px;
-    background-color: white;
-    width: 20rem;
-}
-
-th, td {
-    border: 1px solid #444444;
+  border-radius: 10%;
 }
 
 .level_box {
-    height: 3rem;
-    display:flex;
+  height: 3rem;
+  display: flex;
+}
+
+.level_box > i {
+  margin-right: 1rem;
 }
 
 .champ_memo {
-    margin-top: 8rem;
-    margin-left: 5rem;
+  margin-top: 8rem;
+  margin-left: 5rem;
 }
 
 .main_page_button {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
