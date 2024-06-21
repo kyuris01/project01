@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
   </head>
   <body>
     <header>
@@ -41,15 +42,40 @@
     <section>
       <div class="main_image"></div>
       <div class="champions_box">
-        <div class="champ_category">Fighter</div>
-        <div class="champ_container" id="top_lane"> <!--현재이슈 : 이미지가 첫번째 이미지부터 안나오고 중간부터나옴. champ_container에서 첫번째 이미지부터 나오도록 수정요망-->
-          
+        <div class="champ_category">
+          <div>Hottest</div>
+          <div class="arrow-box">
+            <i class="bi bi-caret-left-square-fill slide-prev"></i>
+            <i class="bi bi-caret-right-square-fill slide-next"></i>
+          </div>
+        </div>
+        <div class="champ_container" id="Hottest" data-position="0">
+          {% for url in Hottest %}
+          <div class="champion"><a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src={{url[1]}} alt="Champion Image" data-champname="{{url[0]}}"/></a></div>
+          {% endfor %}
+        </div>
+        <div class="champ_category">
+          <div>Fighter</div>
+          <div class="arrow-box">
+            <i class="bi bi-caret-left-square-fill slide-prev"></i>
+            <i class="bi bi-caret-right-square-fill slide-next"></i>
+          </div>
+        </div>
+        
+        <div class="champ_container" data-position="0"> <!--현재이슈 : 이미지가 첫번째 이미지부터 안나오고 중간부터나옴. champ_container에서 첫번째 이미지부터 나오도록 수정요망-->
           {% for url in Fighter %}
           <div class="champion"><a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src={{url[1]}} alt="Champion Image" data-champname="{{url[0]}}"/></a></div>
           {% endfor %}
         </div>
+        
 
-        <div class="champ_category">Tank</div>
+        <div class="champ_category">
+          <div>Tank</div>
+          <div class="arrow-box">
+            <i class="bi bi-caret-left-square-fill slide-prev"></i>
+            <i class="bi bi-caret-right-square-fill slide-next"></i>
+          </div>
+        </div>
         <div class="champ_container">
           
           {% for url in Tank %}
@@ -57,14 +83,26 @@
           {% endfor %}
         </div>
 
-        <div class="champ_category">Mage</div>
+        <div class="champ_category">
+          <div>Mage</div>
+          <div class="arrow-box">
+            <i class="bi bi-caret-left-square-fill slide-prev"></i>
+            <i class="bi bi-caret-right-square-fill slide-next"></i>
+          </div>
+        </div>
         <div class="champ_container">
           {% for url in Mage %}
           <div class="champion"><a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src={{url[1]}} alt="Champion Image" data-champname="{{url[0]}}"/></a></div>
           {% endfor %}
         </div>
         
-        <div class="champ_category">Assassin</div>
+        <div class="champ_category">
+          <div>Assassin</div>
+          <div class="arrow-box">
+            <i class="bi bi-caret-left-square-fill slide-prev"></i>
+            <i class="bi bi-caret-right-square-fill slide-next"></i>
+          </div>
+        </div>
         <div class="champ_container">
           
           {% for url in Assassin %}
@@ -72,7 +110,13 @@
           {% endfor %}
         </div>
 
-        <div class="champ_category">Marksman</div>
+        <div class="champ_category">
+          <div>Marksman</div>
+          <div class="arrow-box">
+            <i class="bi bi-caret-left-square-fill slide-prev"></i>
+            <i class="bi bi-caret-right-square-fill slide-next"></i>
+          </div>
+        </div>
         <div class="champ_container">
           
           {% for url in Marksman %}
@@ -80,7 +124,13 @@
           {% endfor %}
         </div>
 
-        <div class="champ_category">Support</div>
+        <div class="champ_category">
+          <div>Support</div>
+          <div class="arrow-box">
+            <i class="bi bi-caret-left-square-fill slide-prev"></i>
+            <i class="bi bi-caret-right-square-fill slide-next"></i>
+          </div>
+        </div>
         <div class="champ_container">
           
           {% for url in Support %}

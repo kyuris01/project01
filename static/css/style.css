@@ -70,6 +70,11 @@ img {
 .champ_category {
   margin-top: 1rem;
   margin-bottom: 1rem;
+  display:flex;
+}
+
+.arrow-box {
+  margin-left : 1rem;
 }
 
 .champion {

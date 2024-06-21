@@ -10,6 +10,10 @@ import datetime, requests, json
 routing_object = Blueprint('route', __name__) #블루프린트객체이름 = Blueprint(블루프린트이름, __name__)
 glb_champ_name = ''
 posts = []
+click_num = {} #챔프별 클릭수 저장
+sorted_champ = [] #[('Aatrox',13),('Camille',10),...]
+
+    
 
 @routing_object.route('/main/<errmsg>') #메인페이지로 돌려보내는 로직
 def main(errmsg):
@@ -25,6 +29,7 @@ def main(errmsg):
     Assassin=[]
     Marksman=[]
     Support=[]
+    Hottest = []
     for i in range(len(champion_data["data"])):
         if "Fighter" in champion_data["data"][champion_name[i]]["tags"]:
             Fighter.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
@@ -38,13 +43,19 @@ def main(errmsg):
             Marksman.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
         if "Support" in champion_data["data"][champion_name[i]]["tags"]:
             Support.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
-    #server.py를 import해서 이미지리스트 변수 사용하는것의 문제점 --> blueprint경로들이 꼬임                                                                                                     
+    #server.py를 import해서 이미지리스트 변수 사용하는것의 문제점 --> blueprint경로들이 꼬임
+    
+    for i in range(len(sorted_champ)):
+        print("sortedchamp :", sorted_champ)
+        Hottest.append([sorted_champ[i][0],"http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + sorted_champ[i][0] + ".png" ])
+    
+                                                                                                         
     if current_user.is_authenticated:
         PageSession.save_session_info(session['client_id'], current_user.user_email)
-        return render_template('main.html', nickname=current_user.nickname, Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, errmsg=errmsg) #단순히 main.html을 render하면 server.py에서 들여왔던 이미지들은 로딩이 안되게됨.
+        return render_template('main.html', nickname=current_user.nickname, Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, Hottest=Hottest, errmsg=errmsg) #단순히 main.html을 render하면 server.py에서 들여왔던 이미지들은 로딩이 안되게됨.
     else:
         PageSession.save_session_info(session['client_id'], 'anonymous')
-        return render_template('main.html', Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, errmsg=errmsg)
+        return render_template('main.html', Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, Hottest=Hottest, errmsg=errmsg)
     
 
 @routing_object.route('/register_page') #회원가입 페이지 접근 로직
@@ -105,7 +116,16 @@ def product_detail(champ_name):
         champion_data = json.load(json_file)
     global glb_champ_name #python에서 전역변수를 사용하기 위해서는 다음과같이 global키워드와 함께 재선언을 해줘야한다
     glb_champ_name = champ_name
-
+    global click_num
+    global sorted_champ
+    
+    #챔프별 클릭수 계산 후 sorting
+    if champ_name in click_num:
+        click_num[champ_name] = click_num[champ_name] + 1
+    else:
+        click_num[champ_name] = 1
+    #print(click_num[champ_name])
+    sorted_champ = sorted(click_num.items(), key = lambda x : x[1], reverse=True)
     # print("attack :", attack)
     # print("defense :", defense)
     # print("magic :", magic)
@@ -162,34 +182,16 @@ def product_detail(champ_name):
                             hpregenperlevel=hpregenperlevel,mpregen=mpregen, mpregenperlevel=mpregenperlevel, crit=crit, critperlevel=critperlevel, 
                             attackdamage=attackdamage, attackdamageperlevel=attackdamageperlevel, attackspeedperlevel=attackspeedperlevel, 
                             attackspeed=attackspeed, champ_img=champ_img)
-        
-        
-        
 
-    # return render_template('champ.html', champ_name=champ_name, attack=attack, defense=defense, magic=magic, difficulty=difficulty, hp=hp,
-    #                         hpperlevel=hpperlevel, mp=mp, mpperlevel=mpperlevel, movespeed=movespeed, armor=armor, armorperlevel=armorperlevel,
-    #                         spellblock=spellblock, spellblockperlevel=spellblockperlevel, attackrange=attackrange, hpregen=hpregen,
-    #                         hpregenperlevel=hpregenperlevel,mpregen=mpregen, mpregenperlevel=mpregenperlevel, crit=crit, critperlevel=critperlevel, 
-    #                         attackdamage=attackdamage, attackdamageperlevel=attackdamageperlevel, attackspeedperlevel=attackspeedperlevel, 
-    #                         attackspeed=attackspeed, champ_img=champ_img, posts=posts)
-    
-    #else:
-        #flash("로그인 후 이용가능합니다!")
-        #return redirect(url_for("route.main"))
-    
-    
     
 
-@routing_object.route('/post', methods=['GET','POST'])
+@routing_object.route('/post', methods=['GET','POST']) #챔프상세페이지에서 코멘트 작성하는 로직
 def post():
     mysql_db=conn_mysqldb()
     db_cursor=mysql_db.cursor()
     global posts
-    
     if request.method == 'POST':
-        #print("POST TEST")
         nickname = current_user.nickname
-        #print(nickname)
         content = request.form['content']
         sql = "INSERT INTO user_post (content, writer, champ) VALUES (%s, %s, %s)" 
         db_cursor.execute(sql, (content, nickname, glb_champ_name))                                
@@ -205,6 +207,6 @@ def post():
         posts = db_cursor.fetchall() #cursor.fetchall()은 2차원 배열형태로 저장하므로 각 행별결과를 보려면 인덱스로 접근
     
     
-    print('glb_champ_name: ', glb_champ_name)   
+    #print('glb_champ_name: ', glb_champ_name)   
     db_cursor.close()
     return redirect(url_for('route.product_detail', champ_name = glb_champ_name))
