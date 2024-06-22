@@ -75,7 +75,7 @@ def return_address():
 def register_function():
     #print("point")
     if request.method == 'POST':
-        print(request.form['nickname'], request.form['user_email'], request.form['password']) #success
+        #print(request.form['nickname'], request.form['user_email'], request.form['password']) #success
         user = User.create(request.form['nickname'], request.form['user_email'], request.form['password']) #request.form : HTML POST 폼의 body 안의 키/값 쌍. 또는 JSON 인코딩이 아닌 자바스크립트 요청
         if user == 'already exist':
             return render_template('register.html', info1='exist', info2=request.form['user_email'])
@@ -90,7 +90,6 @@ def member_check():
         return render_template('login.html', validation=False)
     else:
         login_user(user, remember=True, duration=datetime.timedelta(days=365)) #사용자 세션 생성
-        #print("-----------"+user.nickname+"-------")
         return redirect(url_for('route.main', errmsg="normal")) #redirect(url_for('route.main', nickname=user.nickname))
     
     
@@ -104,7 +103,6 @@ def withdraw():
     User.delete(current_user.user_id) #current_user객체를 이용해 현재 사용자의 정보에 접근가능
     flash("회원탈퇴 완료!")
     return redirect(url_for('route.main', errmsg="normal"))
-
 
 
 @routing_object.route('/champion/<string:champ_name>')

@@ -98,3 +98,29 @@ footer {
   padding-top:4rem;
   text-align:center;
 }
+
+.slide-prev {
+  font-size: 1.5rem;
+  color:black;
+  cursor:pointer;
+}
+
+.slide-next {
+  font-size: 1.5rem;
+  color:grey;
+  cursor:pointer;
+}
+
+.slide-prev-hover:hover {
+  transition : transform 0.5s;
+  transform : translateX(-2px); /*버튼이 살짝 움직이는 효과*/
+}
+
+.slide-next-hover:hover {
+  transition : transform 0.5s;
+  transform : translateX(2px);
+}
+
+.champ_role {
+  font-size:1.5rem;
+}
