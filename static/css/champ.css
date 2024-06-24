@@ -9,7 +9,7 @@ body {
 
 .champ_box {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
 
 .champ_img {
@@ -37,10 +37,38 @@ table,
 th,
 td {
   border: 3px solid #444444;
+  
 }
 
+/* th {
+  width : 250px;
+  min-width: 250px;
+  max-width: 250px;
+  윈도우 사이즈 줄였을때 테이블이 줄어드는것을 방지
+} */
+
 table {
-  border-radius: 10%;
+  table-layout: fixed;
+}
+
+.champ_memo > table > tbody > tr > td{
+  text-overflow: ellipsis;
+  overflow : hidden;
+  white-space: nowrap;
+  height : 50px;
+}
+
+.champ_memo > table {
+  height : 200px;
+  table-layout: fixed;
+}
+
+.stat-table th {
+  width : 130px;
+}
+
+thead > tr > th {
+  width : 300px;
 }
 
 .level_box {
@@ -55,6 +83,8 @@ table {
 .champ_memo {
   margin-top: 8rem;
   margin-left: 5rem;
+  margin-right : 2rem;
+  height: 200px;
 }
 
 .main_page_button {
