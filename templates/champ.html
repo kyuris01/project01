@@ -17,6 +17,13 @@
     <link rel="stylesheet" href="/static/css/champ.css" />
   </head>
   <body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <script>
+              alert("{{messages[-1]}}")
+          </script>
+        {% endif %}
+    {% endwith %}
     <div class="champ_box">
       <div class="champ_img">
         <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/loading/{{champ_name}}_0.jpg" alt="" />
@@ -36,7 +43,7 @@
                     <th>레벨당 체력 증가량</th>
                     <th>{{hpperlevel}}</th>
                 </tr> -->
-          <tr class="table-primary">
+          <tr>
             <th>기본 마나</th>
             <th id="mp">{{mp}}</th>
           </tr>
@@ -123,9 +130,16 @@
           {% for obj in items_on_page%}
           <tbody class="table-group-divider">
             <tr>
-              <td>{{obj[0]}}</td>
-              <td>{{obj[1]}}</td>
-              <td>{{obj[2]}}</td>
+              <td class="content-box">
+                <div class="text-content">{{obj[1]}}</div>
+                  <form action="{{ url_for('route.delete_post', writer_id=obj[2], post_num=obj[0]) }}" method="POST" style="display:inline;">
+                    <input type="hidden" name="writer_id" value="{{ obj[2] }}">
+                    <input type="hidden" name="post_num" value="{{ obj[0] }}">
+                    <button type="submit" class="delete-button">삭제</button>
+                  </form>
+              </td>
+              <td><div class="text-content">{{obj[3]}}</div></td>
+              <td><div class="text-content">{{obj[4]}}</div></td>
             </tr>
           </tbody>
           {% endfor %}

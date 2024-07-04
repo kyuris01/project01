@@ -104,6 +104,19 @@ def withdraw():
     flash("회원탈퇴 완료!")
     return redirect(url_for('route.main', errmsg="normal"))
 
+@routing_object.route('/delete_post', methods=['POST'])
+def delete_post(writer_id, post_num):
+    if writer_id == current_user.user_id:
+        mysql_db=conn_mysqldb()
+        db_cursor=mysql_db.cursor()
+        sql = "DELETE FROM user_post WHERE post_num = %s"
+        db_cursor.execute(sql, (post_num))                                
+        mysql_db.commit()
+        flash("삭제 완료!")
+        db_cursor.close()
+    else:
+        flash("자신이 작성한 글만 지울수 있습니다!")
+
 
 @routing_object.route('/champion/<string:champ_name>')
 @login_required
@@ -161,10 +174,10 @@ def product_detail(champ_name):
     mysql_db=conn_mysqldb()
     db_cursor=mysql_db.cursor()
     global posts
-    sql = "SELECT content, writer, wr_date FROM user_post WHERE champ = %s ORDER BY wr_date DESC"
+    sql = "SELECT post_num, content, user_id, writer, wr_date FROM user_post WHERE champ = %s ORDER BY wr_date DESC"
     db_cursor.execute(sql, (glb_champ_name))
     posts = db_cursor.fetchall()
-    
+    db_cursor.close()
     #페이지네이션을 위한 코드
     page = request.args.get('page', 1, type=int)
     per_page = 5
@@ -190,17 +203,19 @@ def post():
     global posts
     if request.method == 'POST':
         nickname = current_user.nickname
+        user_id = current_user.user_id
         content = request.form['content']
-        sql = "INSERT INTO user_post (content, writer, champ) VALUES (%s, %s, %s)" 
-        db_cursor.execute(sql, (content, nickname, glb_champ_name))                                
+        sql = "INSERT INTO user_post (content, user_id, writer, champ) VALUES (%s, %s, %s, %s)" 
+        db_cursor.execute(sql, (content, user_id, nickname, glb_champ_name))                                
         mysql_db.commit()
-        sql = "SELECT content, writer, wr_date FROM user_post WHERE champ = %s ORDER BY wr_date DESC"
+        sql = "SELECT post_num, content, user_id, writer, wr_date FROM user_post WHERE champ = %s ORDER BY wr_date DESC"
         db_cursor.execute(sql, (glb_champ_name))
-        posts = db_cursor.fetchall() #fetchall()은 SELECT 쿼리 이후에 결과 집합을 가져올 때 사용되며, INSERT 쿼리 후에는 사용할 수 없다.
+        posts = db_cursor.fetchall() 
+        #fetchall()은 SELECT 쿼리 이후에 결과 집합을 가져올 때 사용되며, INSERT 쿼리 후에는 사용할 수 없다.
         #내가 자꾸 insert하고나서 fetch하려고해서 빈 객체가 db로부터 오는것이었다...
 
     else:
-        sql = "SELECT content, writer, wr_date FROM user_post WHERE champ = %s ORDER BY wr_date DESC"
+        sql = "SELECT post_num, content, writer, wr_date FROM user_post WHERE champ = %s ORDER BY wr_date DESC"
         db_cursor.execute(sql, (glb_champ_name))
         posts = db_cursor.fetchall() #cursor.fetchall()은 2차원 배열형태로 저장하므로 각 행별결과를 보려면 인덱스로 접근
     

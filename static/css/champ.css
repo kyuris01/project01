@@ -90,3 +90,8 @@ thead > tr > th {
 .main_page_button {
   margin-top: 1rem;
 }
+
+.content-box {
+  display:flex;
+  justify-content: space-between;
+}
