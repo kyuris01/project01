@@ -6,6 +6,9 @@
     <meta name="description" content="개발자 Chris의 portfolio용 사이트" />
     <meta name="author" content="chris ahn" />
     <title>Lollipop::League Of Legends Database</title>
+
+    <link rel="icon" href="/static/img/lollipop_fav.ico" />
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -148,28 +151,12 @@
       </div>
     </footer>
     <script src="/static/js/main.js"></script>
-    <!-- <script src="/static/js/unauthorized.js"></script> -->
     <script>
       let data = "{{errmsg}}";
-      console.log(data);
-      console.log(typeof data);
+      
       if (data !== "normal") {
-        console.log("flag");
         alert(data);
         window.location.href = "http://localhost:5000/routing/login_page";
-        /**
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "/routing/return_address");
-        xhr.send();
-        
-        xhr.onload = (res) => {
-          console.log(res);
-          console.log("fucking heelo");
-          url = JSON.parse(res);
-          console.log(url);
-          window.location.href = url;
-        }
-        **/
       }
     </script>
   </body>

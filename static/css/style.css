@@ -88,6 +88,10 @@ img {
   /*aspect-ratio: 1;*/ /*이미지나 비디오 동영상, div 요소 등 요소 박스의 가로(width) 세로(height) 비율을 쉽게 유지하거나 조정, 설정할 수 있는 속성*/
 }
 
+.champion:hover {
+  filter: brightness(0.5);
+}
+
 footer {
   height: 10rem;
   background-color: rgb(234,234,234);

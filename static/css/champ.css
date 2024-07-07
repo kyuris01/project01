@@ -1,6 +1,7 @@
 body {
-  background-image: url("/static/img/galaxy.jpg");
+ background-image: url("/static/img/galaxy2.jpg");
   background-size: cover;
+  background-color:#444444;
 
   font-family: "Poor Story", sans-serif;
   font-weight: 400;
@@ -10,11 +11,14 @@ body {
 .champ_box {
   display: flex;
   justify-content: space-between;
+  /* background-color: rgb(167, 76, 169); */
+  margin-bottom:1rem;
 }
 
 .champ_img {
   margin-left: 5rem;
   margin-top: 5rem;
+  margin-bottom:1rem;
 }
 
 .champ_stat {
@@ -51,18 +55,6 @@ table {
   table-layout: fixed;
 }
 
-.champ_memo > table > tbody > tr > td{
-  text-overflow: ellipsis;
-  overflow : hidden;
-  white-space: nowrap;
-  height : 50px;
-}
-
-.champ_memo > table {
-  height : 200px;
-  table-layout: fixed;
-}
-
 .stat-table th {
   width : 130px;
 }
@@ -80,18 +72,66 @@ thead > tr > th {
   margin-right: 1rem;
 }
 
-.champ_memo {
+
+
+.main_page_button {
+  margin-top: 1rem;
+}
+
+
+thead > tr {
+  height: 5px;
+}
+
+/* champ-memo 관련 부분 */
+/* .champ_memo > table > tbody > tr > td{
+  text-overflow: ellipsis;
+  overflow : hidden;
+  white-space: nowrap;
+  height : 50px;
+} */
+
+.champ-memo > table {
+  height : 200px;
+  table-layout: fixed;
+}
+
+.champ-memo {
   margin-top: 8rem;
   margin-left: 5rem;
   margin-right : 2rem;
   height: 200px;
 }
 
-.main_page_button {
-  margin-top: 1rem;
-}
-
 .content-box {
   display:flex;
   justify-content: space-between;
+}
+
+.table-light > tr > th {
+  height : 5px;
+}
+
+.text-content {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.8;
+  overflow: hidden;
+}
+
+
+/*tipbox관련--------------------------------------*/
+#tipbox {
+  color : black;
+  width:1000px;
+  height:500px;
+  background-color: white;
+  margin-left: 5rem;
+  margin-top: 1rem;
+  margin-bottom:1rem;
+}
+
+.tip-setting {
+  margin-left:5rem;
 }

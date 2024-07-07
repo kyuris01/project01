@@ -4,8 +4,12 @@ from flask_paginate import Pagination, get_page_args
 from web_control.user_mgmt import User
 from web_control.session_mgmt import PageSession
 from db_model.mysql import conn_mysqldb
+from openai import OpenAI
+from dotenv import load_dotenv, find_dotenv
+import os
 import datetime, requests, json
 
+load_dotenv(find_dotenv())
 
 routing_object = Blueprint('route', __name__) #블루프린트객체이름 = Blueprint(블루프린트이름, __name__)
 glb_champ_name = ''
@@ -13,7 +17,7 @@ posts = []
 click_num = {} #챔프별 클릭수 저장
 sorted_champ = [] #[('Aatrox',13),('Camille',10),...]
 
-    
+
 
 @routing_object.route('/main/<errmsg>') #메인페이지로 돌려보내는 로직
 def main(errmsg):
@@ -46,7 +50,7 @@ def main(errmsg):
     #server.py를 import해서 이미지리스트 변수 사용하는것의 문제점 --> blueprint경로들이 꼬임
     
     for i in range(len(sorted_champ)):
-        print("sortedchamp :", sorted_champ)
+        #print("sortedchamp :", sorted_champ)
         Hottest.append([sorted_champ[i][0],"http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + sorted_champ[i][0] + ".png" ])
     
                                                                                                          
@@ -104,7 +108,7 @@ def withdraw():
     flash("회원탈퇴 완료!")
     return redirect(url_for('route.main', errmsg="normal"))
 
-@routing_object.route('/delete_post', methods=['POST'])
+@routing_object.route('/delete_post/<int:writer_id>/<int:post_num>', methods=['POST'])
 def delete_post(writer_id, post_num):
     if writer_id == current_user.user_id:
         mysql_db=conn_mysqldb()
@@ -116,6 +120,7 @@ def delete_post(writer_id, post_num):
         db_cursor.close()
     else:
         flash("자신이 작성한 글만 지울수 있습니다!")
+    return redirect(url_for('route.product_detail', champ_name = glb_champ_name))
 
 
 @routing_object.route('/champion/<string:champ_name>')
@@ -137,11 +142,6 @@ def product_detail(champ_name):
         click_num[champ_name] = 1
     #print(click_num[champ_name])
     sorted_champ = sorted(click_num.items(), key = lambda x : x[1], reverse=True)
-    # print("attack :", attack)
-    # print("defense :", defense)
-    # print("magic :", magic)
-    # print("difficulty :", difficulty)
-    # print("hp :", hp)
     
     attack = champion_data['data'][champ_name]['info']['attack']
     defense = champion_data['data'][champ_name]['info']['defense']
@@ -187,12 +187,14 @@ def product_detail(champ_name):
     
     items_on_page = posts[start:end]
     
+    openai_api_key = os.environ.get("OPENAI_API_KEY")
+    
     return render_template('champ.html', items_on_page=items_on_page, total_pages=total_pages, page=page, champ_name=champ_name, attack=attack, defense=defense, magic=magic, difficulty=difficulty, hp=hp,
                             hpperlevel=hpperlevel, mp=mp, mpperlevel=mpperlevel, movespeed=movespeed, armor=armor, armorperlevel=armorperlevel,
                             spellblock=spellblock, spellblockperlevel=spellblockperlevel, attackrange=attackrange, hpregen=hpregen,
                             hpregenperlevel=hpregenperlevel,mpregen=mpregen, mpregenperlevel=mpregenperlevel, crit=crit, critperlevel=critperlevel, 
                             attackdamage=attackdamage, attackdamageperlevel=attackdamageperlevel, attackspeedperlevel=attackspeedperlevel, 
-                            attackspeed=attackspeed, champ_img=champ_img)
+                            attackspeed=attackspeed, champ_img=champ_img, openai_api_key= openai_api_key)
 
     
 
@@ -223,3 +225,23 @@ def post():
     #print('glb_champ_name: ', glb_champ_name)   
     db_cursor.close()
     return redirect(url_for('route.product_detail', champ_name = glb_champ_name))
+
+# @routing_object.route('/matchup_tips')
+# def matchup_tips():
+#     client = OpenAI()
+#     my_champ = request.args.get("me")
+#     opp_champ = request.args.get("opp")
+#     line = request.args.get("line")
+#     response = client.chat.completions.create(
+#     model="gpt-3.5-turbo",
+#     messages=[
+#         {"role": "system", "content": "너는 리그오브레전드에서 챔피언 1대1 매치업에서의 팁을 알려주는 도우미야"},
+#         {"role": "user", "content": f"리그오브레전드 게임에서, {line}에서 내가 {my_champ} 챔피언을 플레이하고 상대방이 {opp_champ} 일때의 상대하는 팁을 알려줘"},
+#     ]
+#     )
+#     tips = response.choices[0].message.content
+#     return redirect(url_for('route.product_detail', champ_name = glb_champ_name, tips=tips))
+
+@routing_object.route('/env', methods=["POST"])
+def env():
+    return jsonify({"key" : os.getenv("OPENAI_API_KEY")})

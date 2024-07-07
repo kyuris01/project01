@@ -117,7 +117,7 @@
                 </tr> -->
         </table>
       </div>
-      <div class="champ_memo">
+      <div class="champ-memo">
         <table class="table table-dark table-striped table-hover">
           <thead class="table-light">
             <tr>
@@ -138,8 +138,9 @@
                     <button type="submit" class="delete-button">삭제</button>
                   </form>
               </td>
-              <td><div class="text-content">{{obj[3]}}</div></td>
-              <td><div class="text-content">{{obj[4]}}</div></td>
+              <td><div class="writer">{{obj[3]}}</div></td>
+            
+              <td><div class="write-time">{{obj[4]}}</div></td>
             </tr>
           </tbody>
           {% endfor %}
@@ -191,8 +192,19 @@
         </form>
       </div>
     </div>
+    <div style="color:white;" class="tip-setting">
+        chat gpt 매치업팁
+      <!-- <form method="get" action="/routing/matchup_tips"> -->
+        me : <input type="text" name="me" id="me">
+        opponent: <input type="text" name="opp" id="opp">
+        line: <input type="text" name="line" id="line">
+        <button type="submit" id="tip_button">팁 제공</button>
+      <!-- </form> -->
+    </div>
+    <div id="tipbox">AI에게 챔피언별 상대법을 물어보세요!</div>
 
     <!-- <script src="/static/js/level_changer.js"></script> -->
+    <script src="/static/js/openAI.js"></script>
     <script>
       const levelUp = document.getElementById("up");
       const levelDown = document.getElementById("down");

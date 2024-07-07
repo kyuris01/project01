@@ -21,7 +21,7 @@ class User(UserMixin):
         if not user:
             db_cursor.close()
             return None
-        print(user)
+        #print(user)
         user = User(user_id=user[0], nickname=user[1], user_email=user[2], password=user[3])
         db_cursor.close()
         return user
@@ -30,12 +30,12 @@ class User(UserMixin):
     def find(user_email, password):
         mysql_db = conn_mysqldb()
         db_cursor = mysql_db.cursor()
-        print("-------------before sql execute-----------")
+        #print("-------------before sql execute-----------")
         sql = "SELECT * FROM user_info WHERE user_email = %s AND password = %s"
         db_cursor.execute(sql, (user_email, password))
         user = db_cursor.fetchone()
         db_cursor.close()
-        print("----------------", user, "---------------")
+        #print("----------------", user, "---------------")
         if not user:
             return None
         
@@ -51,11 +51,11 @@ class User(UserMixin):
         if user == None:
             mysql_db=conn_mysqldb()
             db_cursor=mysql_db.cursor()
-            print("------------before insert----------")
+            #print("------------before insert----------")
             sql = "INSERT INTO user_info (nickname, user_email, password) VALUES (%s, %s, %s)" #"INSERT INTO user_info (nickname, user_email, password) VALUES (%s, %s, %s)" % (str(nickname)), str(user_email), str(password))
             db_cursor.execute(sql, (nickname, user_email, password))                                #해당 insert문의 표현은 아마 deprecated된것같다. 이것때문에 계속 sql syntax오류가난듯.
             mysql_db.commit()
-            print("--------------after insert------------")
+            #print("--------------after insert------------")
             return User.find(user_email, password)
         else:
             return 'already exist'
