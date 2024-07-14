@@ -17,13 +17,11 @@
     <link rel="stylesheet" href="/static/css/champ.css" />
   </head>
   <body>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <script>
-              alert("{{messages[-1]}}")
-          </script>
-        {% endif %}
-    {% endwith %}
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <script>
+      alert("{{messages[-1]}}");
+    </script>
+    {% endif %} {% endwith %}
     <div class="champ_box">
       <div class="champ_img">
         <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/loading/{{champ_name}}_0.jpg" alt="" />
@@ -132,14 +130,14 @@
             <tr>
               <td class="content-box">
                 <div class="text-content">{{obj[1]}}</div>
-                  <form action="{{ url_for('route.delete_post', writer_id=obj[2], post_num=obj[0]) }}" method="POST" style="display:inline;">
-                    <input type="hidden" name="writer_id" value="{{ obj[2] }}">
-                    <input type="hidden" name="post_num" value="{{ obj[0] }}">
-                    <button type="submit" class="delete-button">삭제</button>
-                  </form>
+                <form action="{{ url_for('route.delete_post', writer_id=obj[2], post_num=obj[0]) }}" method="POST" style="display: inline">
+                  <input type="hidden" name="writer_id" value="{{ obj[2] }}" />
+                  <input type="hidden" name="post_num" value="{{ obj[0] }}" />
+                  <button type="submit" class="delete-button">삭제</button>
+                </form>
               </td>
               <td><div class="writer">{{obj[3]}}</div></td>
-            
+
               <td><div class="write-time">{{obj[4]}}</div></td>
             </tr>
           </tbody>
@@ -163,9 +161,7 @@
               <li class="page-item disabled">
                 <a class="page-link">Previous</a>
               </li>
-              {% endif %} 
-              {% for x in range(total_pages) %} 
-              {% if page == x + 1 %}
+              {% endif %} {% for x in range(total_pages) %} {% if page == x + 1 %}
               <li class="page-item active" aria-current="page">
                 <a class="page-link" href="{{ url_for('route.product_detail', page=x+1, champ_name=champ_name)}}">{{x + 1}}</a>
               </li>
@@ -173,9 +169,7 @@
               <li class="page-item">
                 <a class="page-link" href="{{ url_for('route.product_detail', page=x+1, champ_name=champ_name)}}">{{x + 1}}</a>
               </li>
-              {% endif %} 
-              {% endfor %} 
-              {% if page < total_pages %}
+              {% endif %} {% endfor %} {% if page < total_pages %}
               <li class="page-item">
                 <a class="page-link" href="{{ url_for('route.product_detail', page=page+1, champ_name=champ_name)}}">Next</a>
               </li>
@@ -184,24 +178,23 @@
           </nav>
         </table>
         <form method="post" action="/routing/post">
-          <input type="text" name="content" />
-          <button>write</button>
+          <input type="text" class="text-box" name="content" />
+          <button style="margin-top: 10px">write</button>
         </form>
         <form method="get" action="/routing/main/normal">
           <button class="main_page_button">메인페이지로</button>
         </form>
       </div>
     </div>
-    <div style="color:white;" class="tip-setting">
-        chat gpt 매치업팁
-      <!-- <form method="get" action="/routing/matchup_tips"> -->
-        me : <input type="text" name="me" id="me">
-        opponent: <input type="text" name="opp" id="opp">
-        line: <input type="text" name="line" id="line">
+    <div class="tip-section">
+      <div style="color: white" class="tip-setting">
+        chat gpt 매치업팁 me : <input type="text" name="me" id="me" /> opponent: <input type="text" name="opp" id="opp" /> line: <input type="text" name="line" id="line" />
+        <input type="hidden" />
         <button type="submit" id="tip_button">팁 제공</button>
-      <!-- </form> -->
+      </div>
+      <div id="tipbox">AI에게 챔피언별 상대법을 물어보세요!</div>
     </div>
-    <div id="tipbox">AI에게 챔피언별 상대법을 물어보세요!</div>
+    <div class="youtube-section"></div>
 
     <!-- <script src="/static/js/level_changer.js"></script> -->
     <script src="/static/js/openAI.js"></script>

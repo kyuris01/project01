@@ -1,7 +1,7 @@
 body {
- background-image: url("/static/img/galaxy2.jpg");
+  /*background-image: url("/static/img/galaxy2.jpg");*/
   background-size: cover;
-  background-color:#444444;
+  background-color: #1c1c1f;
 
   font-family: "Poor Story", sans-serif;
   font-weight: 400;
@@ -12,18 +12,19 @@ body {
   display: flex;
   justify-content: space-between;
   /* background-color: rgb(167, 76, 169); */
-  margin-bottom:1rem;
+  margin-bottom: 1rem;
 }
 
 .champ_img {
   margin-left: 5rem;
   margin-top: 5rem;
-  margin-bottom:1rem;
+  margin-bottom: 1rem;
 }
 
 .champ_stat {
   margin-top: 5rem;
   margin-left: 5rem;
+  background-color: #31313c;
 }
 
 #champ_level {
@@ -41,7 +42,6 @@ table,
 th,
 td {
   border: 3px solid #444444;
-  
 }
 
 /* th {
@@ -56,11 +56,12 @@ table {
 }
 
 .stat-table th {
-  width : 130px;
+  width: 130px;
+  color: black;
 }
 
 thead > tr > th {
-  width : 300px;
+  width: 300px;
 }
 
 .level_box {
@@ -72,12 +73,9 @@ thead > tr > th {
   margin-right: 1rem;
 }
 
-
-
 .main_page_button {
   margin-top: 1rem;
 }
-
 
 thead > tr {
   height: 5px;
@@ -92,24 +90,25 @@ thead > tr {
 } */
 
 .champ-memo > table {
-  height : 200px;
+  height: 200px;
   table-layout: fixed;
 }
 
 .champ-memo {
   margin-top: 8rem;
   margin-left: 5rem;
-  margin-right : 2rem;
+  margin-right: 2rem;
   height: 200px;
+  background-color: #31313c;
 }
 
 .content-box {
-  display:flex;
+  display: flex;
   justify-content: space-between;
 }
 
 .table-light > tr > th {
-  height : 5px;
+  height: 5px;
 }
 
 .text-content {
@@ -120,18 +119,26 @@ thead > tr {
   overflow: hidden;
 }
 
+.text-box {
+  width: 100%;
+  height: 5rem;
+}
 
 /*tipbox관련--------------------------------------*/
+.tip-section {
+  background-color: #31313c;
+}
+
 #tipbox {
-  color : black;
-  width:1000px;
-  height:500px;
+  color: black;
+  width: 1000px;
+  height: 500px;
   background-color: white;
   margin-left: 5rem;
   margin-top: 1rem;
-  margin-bottom:1rem;
+  margin-bottom: 1rem;
 }
 
 .tip-setting {
-  margin-left:5rem;
+  margin-left: 5rem;
 }

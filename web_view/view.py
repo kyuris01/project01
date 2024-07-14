@@ -8,6 +8,7 @@ from openai import OpenAI
 from dotenv import load_dotenv, find_dotenv
 import os
 import datetime, requests, json
+import re
 
 load_dotenv(find_dotenv())
 
@@ -17,6 +18,12 @@ posts = []
 click_num = {} #챔프별 클릭수 저장
 sorted_champ = [] #[('Aatrox',13),('Camille',10),...]
 
+def regex_pw (pw):
+    pattern = r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$'
+    if re.match(pattern, pw):
+        return True
+    else:
+        return False
 
 
 @routing_object.route('/main/<errmsg>') #메인페이지로 돌려보내는 로직
@@ -77,14 +84,15 @@ def return_address():
 
 @routing_object.route('/register_function', methods=['GET','POST'])
 def register_function():
-    #print("point")
     if request.method == 'POST':
-        #print(request.form['nickname'], request.form['user_email'], request.form['password']) #success
-        user = User.create(request.form['nickname'], request.form['user_email'], request.form['password']) #request.form : HTML POST 폼의 body 안의 키/값 쌍. 또는 JSON 인코딩이 아닌 자바스크립트 요청
-        if user == 'already exist':
-            return render_template('register.html', info1='exist', info2=request.form['user_email'])
+        if not regex_pw(request.form['password']):
+            return render_template('register.html', error='wrong format')
         else:
-            return render_template("register.html", info1='new', info2=request.form['user_email'])
+            user = User.create(request.form['nickname'], request.form['user_email'], request.form['password']) #request.form : HTML POST 폼의 body 안의 키/값 쌍. 또는 JSON 인코딩이 아닌 자바스크립트 요청
+            if user == 'already exist':
+                return render_template('register.html', info1='exist', info2=request.form['user_email'])
+            else:
+                return render_template("register.html", info1='new', info2=request.form['user_email'])
    
     
 @routing_object.route('/member_check', methods=['GET', 'POST']) #로그인 로직
@@ -225,22 +233,6 @@ def post():
     #print('glb_champ_name: ', glb_champ_name)   
     db_cursor.close()
     return redirect(url_for('route.product_detail', champ_name = glb_champ_name))
-
-# @routing_object.route('/matchup_tips')
-# def matchup_tips():
-#     client = OpenAI()
-#     my_champ = request.args.get("me")
-#     opp_champ = request.args.get("opp")
-#     line = request.args.get("line")
-#     response = client.chat.completions.create(
-#     model="gpt-3.5-turbo",
-#     messages=[
-#         {"role": "system", "content": "너는 리그오브레전드에서 챔피언 1대1 매치업에서의 팁을 알려주는 도우미야"},
-#         {"role": "user", "content": f"리그오브레전드 게임에서, {line}에서 내가 {my_champ} 챔피언을 플레이하고 상대방이 {opp_champ} 일때의 상대하는 팁을 알려줘"},
-#     ]
-#     )
-#     tips = response.choices[0].message.content
-#     return redirect(url_for('route.product_detail', champ_name = glb_champ_name, tips=tips))
 
 @routing_object.route('/env', methods=["POST"])
 def env():
