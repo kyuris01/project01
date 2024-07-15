@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box; /*선까지 포함해서 박스사이즈로 설정*/
+}
+
 body {
   /*background-image: url("/static/img/galaxy2.jpg");*/
   background-size: cover;
@@ -8,36 +12,48 @@ body {
   font-style: normal;
 }
 
+/*champ-description part */
+.progress-bar-custom .progress-bar {
+  background-color: #6610f2;
+}
+
+.champ-description {
+  margin-top: 5rem;
+  margin-left: 1rem;
+  padding: 1rem;
+  width: 20rem;
+  height: 560px;
+  color: white;
+  background-color: #31313c;
+}
+
+/*champ-opponent*/
+.opponent-selection {
+  margin-top: 5rem;
+  margin-left: 1rem;
+  height: 560px;
+  background-color: #31313c;
+  max-width: 69rem;
+  display: flex;
+  flex-wrap: wrap; /*flex-item들이 flex-container의 크기를 넘길때, 어떻게 처리하는지에 관련된 속성*/
+  overflow: auto;
+}
+.small-champ-img {
+}
 .champ_box {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   /* background-color: rgb(167, 76, 169); */
   margin-bottom: 1rem;
 }
 
-.champ_img {
-  margin-left: 5rem;
-  margin-top: 5rem;
-  margin-bottom: 1rem;
-}
-
-.champ_stat {
+.champ-img {
   margin-top: 5rem;
   margin-left: 5rem;
-  background-color: #31313c;
 }
 
-#champ_level {
-  font-size: 1.5rem;
-  color: white;
-  margin-left: 1rem;
-}
-/*
-.table-rounded {
-  border: 2px solid black;
-  border-radius: 5%;
-}
-*/
+/*----------------------*/
+
 table,
 th,
 td {
@@ -89,12 +105,12 @@ thead > tr {
   height : 50px;
 } */
 
-.champ-memo > table {
+.champ-memo-section > table {
   height: 200px;
   table-layout: fixed;
 }
 
-.champ-memo {
+.champ-memo-section {
   margin-top: 8rem;
   margin-left: 5rem;
   margin-right: 2rem;
@@ -120,13 +136,21 @@ thead > tr {
 }
 
 .text-box {
-  width: 100%;
+  width: 80%;
   height: 5rem;
 }
 
 /*tipbox관련--------------------------------------*/
 .tip-section {
   background-color: #31313c;
+  width: 80%;
+  margin-left: 5rem;
+}
+
+#me,
+#opp {
+  background-color: white;
+  color: black;
 }
 
 #tipbox {

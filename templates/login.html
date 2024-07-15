@@ -85,11 +85,11 @@
         --bs-btn-color: var(--bs-white);
         --bs-btn-bg: var(--bd-violet-bg);
         --bs-btn-border-color: var(--bd-violet-bg);
-        --bs-btn-hover-color: var(--bs-white);
+        /*--bs-btn-hover-color: var(--bs-white);*/
         --bs-btn-hover-bg: #6528e0;
         --bs-btn-hover-border-color: #6528e0;
         --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-        --bs-btn-active-color: var(--bs-btn-hover-color);
+        /*--bs-btn-active-color: var(--bs-btn-hover-color);*/
         --bs-btn-active-bg: #5a23c8;
         --bs-btn-active-border-color: #5a23c8;
       }
@@ -101,6 +101,11 @@
       .bd-mode-toggle .dropdown-menu .active .bi {
         display: block !important;
       }
+
+      .custom-btn {
+        background-color: #6610f2;
+        border-color: #6610f2;
+      }
     </style>
 
     <!-- Custom styles for this template -->
@@ -109,7 +114,7 @@
   <body class="d-flex align-items-center py-4 bg-body-tertiary">
     <main class="form-signin w-100 m-auto">
       <form method="post" action="/routing/member_check">
-        <img class="mb-4" src="../static/img/LolMemo_logo.png" alt="" width="150" height="150" />
+        <img class="mb-4" src="../static/img/Lollipop.png" alt="" width="150" height="150" />
         <h1 class="h3 mb-3 fw-normal">로그인</h1>
         <div></div>
         <div class="form-floating">
@@ -120,18 +125,13 @@
           <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" />
           <label for="floatingPassword">Password</label>
         </div>
-        <!-- <div class="form-floating">
-      <input type="" class="form-control" id="" placeholder="Tier">
-      <label for="">롤 티어</label>
-    </div> -->
-
         <!-- <div class="form-check text-start my-3">
       <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
       <label class="form-check-label" for="flexCheckDefault">
         Remember me
       </label>
     </div> -->
-        <button class="btn btn-primary w-100 py-2" type="submit">로그인</button>
+        <button class="btn custom-btn w-100 py-2" type="submit">로그인</button>
         {% if validation == False %}
         <div class="invalid">회원이 아닌 사용자입니다!</div>
         {% endif %}

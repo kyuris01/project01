@@ -28,7 +28,7 @@ def unauthorized():
 
 @app.route("/")
 def index():
-    response = requests.get("https://ddragon.leagueoflegends.com/cdn/14.9.1/data/en_US/champion.json")
+    response = requests.get("https://ddragon.leagueoflegends.com/cdn/14.9.1/data/ko_KR/champion.json")
     champion_data = response.json()
 
     with open('champion_data.json', 'w') as json_file: #API호출의 제약이 있을수있으므로 서버내에 캐싱해둔다.
@@ -48,20 +48,20 @@ def index():
     Support=[]
     for i in range(len(champion_data["data"])): #[["aatrox", ".....png"],[],...]
         if "Fighter" in champion_data["data"][champion_name[i]]["tags"]:
-            Fighter.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
+            Fighter.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png"])
         if "Tank" in champion_data["data"][champion_name[i]]["tags"]:
-            Tank.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
+            Tank.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png"])
         if "Mage" in champion_data["data"][champion_name[i]]["tags"]:
-            Mage.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
+            Mage.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png"])
         if "Assassin" in champion_data["data"][champion_name[i]]["tags"]:
-            Assassin.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
+            Assassin.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png"])
         if "Marksman" in champion_data["data"][champion_name[i]]["tags"]:
-            Marksman.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
+            Marksman.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png"])
         if "Support" in champion_data["data"][champion_name[i]]["tags"]:
-            Support.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
+            Support.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png"])
                                                                                                          #리스트가 빈 리스트로 초기화되었을 경우, 리스트의 인덱스에
                                                                                                         #직접값을 할당할수없다. 대신 append()메서드를 이용!
-
+# Support.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])
     
     if current_user.is_authenticated:
         PageSession.save_session_info(session['client_id'], current_user.user_email)
