@@ -1,0 +1,130 @@
+* {
+  box-sizing: border-box; /*선까지 포함해서 박스사이즈로 설정*/
+}
+
+a {
+  text-decoration:none;
+  color: black;
+}
+
+body {
+  font-family: "Black Han Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+.session_menu {
+  margin-left: 2rem;
+  margin-right: 2rem;
+  line-height: 5rem;
+}
+
+.session_box {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logo_box {
+  justify-content: flex-start;
+  margin-left: 1rem;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+.nav_box {
+  display: flex;
+  background-color: white;
+  opacity: 0.8;
+  height: 5rem;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+}
+
+.main_image {
+  background-image: url("../img/lol_banner.png");
+  height: 30rem;
+  background-size: cover;
+}
+
+.champions_box {
+  width: 70%;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto; /*width가 100%가 아닐때는 가운데정렬하려면 margin-left와 right를 auto로 해준다*/
+}
+
+.champ_container {
+  display: flex;
+  width: 100%;
+  
+  
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.champ_category {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display:flex;
+}
+
+.arrow-box {
+  margin-left : 1rem;
+}
+
+.champion {
+  border-style: solid;
+  border-color: black;
+  width: 10rem;
+  height: 10rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+  /*aspect-ratio: 1;*/ /*이미지나 비디오 동영상, div 요소 등 요소 박스의 가로(width) 세로(height) 비율을 쉽게 유지하거나 조정, 설정할 수 있는 속성*/
+}
+
+.champion:hover {
+  filter: brightness(0.5);
+}
+
+footer {
+  height: 10rem;
+  background-color: rgb(234,234,234);
+  margin-top:2rem;
+}
+
+.footer {
+  padding-top:4rem;
+  text-align:center;
+}
+
+.slide-prev {
+  font-size: 1.5rem;
+  color:black;
+  cursor:pointer;
+}
+
+.slide-next {
+  font-size: 1.5rem;
+  color:grey;
+  cursor:pointer;
+}
+
+.slide-prev-hover:hover {
+  transition : transform 0.5s;
+  transform : translateX(-2px); /*버튼이 살짝 움직이는 효과*/
+}
+
+.slide-next-hover:hover {
+  transition : transform 0.5s;
+  transform : translateX(2px);
+}
+
+.champ_role {
+  font-size:1.5rem;
+}

@@ -1,0 +1,12 @@
+<user_info>
+user_id PK
+nickname UNIQUE
+user_email
+password UNIQUE
+
+<user_post>
+post_num
+content
+nickname FK
+wr_date
+champ

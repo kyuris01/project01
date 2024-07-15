@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="개발자 Chris의 portfolio용 사이트" />
+    <meta name="author" content="chris ahn" />
+    <title>Lollipop::League Of Legends Database</title>
+
+    <link rel="icon" href="/static/img/lollipop_fav.ico" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+  </head>
+  <body>
+    <header>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <script>
+              alert("{{messages[-1]}}")
+          </script>
+        {% endif %}
+      {% endwith %}
+    </header>
+    <nav>
+      <div class="nav_box">
+        <div class="logo_box"><img src="/static/img/Lollipop.png" alt="사이트로고" /></div>
+        <div class="session_box">
+          {% if nickname != null %}
+          <div class="session_menu"> {{nickname}}님, 안녕하세요 </div>
+          <div class="session_menu"><a href="/routing/logout">logout</a></div>
+          <div class="session_menu"><a href="/routing/withdraw">회원탈퇴</a></div>
+          
+          {% else %}
+          <div class="session_menu"><a href="/routing/register_page">회원가입</a></div>
+          <div class="session_menu"><a href="/routing/login_page">로그인</a></div>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+    <section>
+      <div class="main_image"></div>
+      <div class="champions_box">
+        
+        <div class="champ_category">
+          <div class="champ_role">Hottest</div>
+          <!-- <div class="arrow-box">
+            <i class="bi bi-caret-left-square-fill slide-prev"></i>
+            <i class="bi bi-caret-right-square-fill slide-next"></i>
+          </div> -->
+        </div>
+
+        <div class="champ_container" id="Hottest" data-position="0">
+          {% for url in Hottest %}
+          <div class="champion"><a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src={{url[1]}} alt="Champion Image" data-champname="{{url[0]}}"/></a></div>
+          {% endfor %}
+        </div>
+
+        <div class="champ_category">
+          <div class="champ_role">Fighter</div>
+          <div class="arrow-box">
+            <i class="bi bi-caret-left-square-fill slide-prev"></i>
+            <i class="bi bi-caret-right-square-fill slide-next"></i>
+          </div>
+        </div>
+        <div class="champ_container" data-position="0">
+          {% for url in Fighter %}
+          <div class="champion"><a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src={{url[1]}} alt="Champion Image" data-champname="{{url[0]}}"/></a></div>
+          {% endfor %}
+        </div>
+        
+
+        <div class="champ_category">
+          <div class="champ_role">Tank</div>
+          <div class="arrow-box">
+            <i class="bi bi-caret-left-square-fill slide-prev"></i>
+            <i class="bi bi-caret-right-square-fill slide-next"></i>
+          </div>
+        </div>
+        <div class="champ_container" data-position="0">
+          {% for url in Tank %}
+          <div class="champion"><a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src={{url[1]}} alt="Champion Image" data-champname="{{url[0]}}"/></a></div>
+          {% endfor %}
+        </div>
+
+        <div class="champ_category">
+          <div class="champ_role">Mage</div>
+          <div class="arrow-box">
+            <i class="bi bi-caret-left-square-fill slide-prev"></i>
+            <i class="bi bi-caret-right-square-fill slide-next"></i>
+          </div>
+        </div>
+        <div class="champ_container" data-position="0">
+          {% for url in Mage %}
+          <div class="champion"><a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src={{url[1]}} alt="Champion Image" data-champname="{{url[0]}}"/></a></div>
+          {% endfor %}
+        </div>
+        
+        <div class="champ_category">
+          <div class="champ_role">Assassin</div>
+          <div class="arrow-box">
+            <i class="bi bi-caret-left-square-fill slide-prev"></i>
+            <i class="bi bi-caret-right-square-fill slide-next"></i>
+          </div>
+        </div>
+        <div class="champ_container" data-position="0">
+          
+          {% for url in Assassin %}
+          <div class="champion"><a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src={{url[1]}} alt="Champion Image" data-champname="{{url[0]}}"/></a></div>
+          {% endfor %}
+        </div>
+
+        <div class="champ_category">
+          <div class="champ_role">Marksman</div>
+          <div class="arrow-box">
+            <i class="bi bi-caret-left-square-fill slide-prev"></i>
+            <i class="bi bi-caret-right-square-fill slide-next"></i>
+          </div>
+        </div>
+        <div class="champ_container" data-position="0">
+          
+          {% for url in Marksman %}
+          <div class="champion"><a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src={{url[1]}} alt="Champion Image" data-champname="{{url[0]}}"/></a></div>
+          {% endfor %}
+        </div>
+
+        <div class="champ_category">
+          <div class="champ_role">Support</div>
+          <div class="arrow-box">
+            <i class="bi bi-caret-left-square-fill slide-prev"></i>
+            <i class="bi bi-caret-right-square-fill slide-next"></i>
+          </div>
+        </div>
+        <div class="champ_container" data-position="0">
+          
+          {% for url in Support %}
+          <div class="champion"><a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src={{url[1]}} alt="Champion Image" data-champname="{{url[0]}}"/></a></div>
+          {% endfor %}
+        </div>
+
+      </div>
+    </section>
+    <footer>
+      <div class="footer">
+          Project by Taekyu<br>
+          all rights reserved
+      </div>
+    </footer>
+    <script src="/static/js/main.js"></script>
+    <script>
+      let data = "{{errmsg}}";
+      
+      if (data !== "normal") {
+        alert(data);
+        window.location.href = "http://localhost:5000/routing/login_page";
+      }
+    </script>
+  </body>
+</html>

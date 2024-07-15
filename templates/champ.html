@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/433d703869.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link href="/static/css/bootstrap.css" rel="stylesheet" />
+    <!-- <link rel="stylesheet" href="../static/css/champ.css" /> -->
+    <link rel="stylesheet" href="/static/css/champ.css" />
+  </head>
+  <body>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <script>
+      alert("{{messages[-1]}}");
+    </script>
+    {% endif %} {% endwith %}
+    <div class="champ_box">
+      <div class="champ_img">
+        <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/loading/{{champ_name}}_0.jpg" alt="" />
+      </div>
+      <div class="champ_stat">
+        <div class="level_box">
+          <i class="bi bi-caret-up-square-fill fs-5" id="up" style="color: blue"></i>
+          <i class="bi bi-caret-down-square-fill fs-5" id="down" style="color: red"></i>
+          <div id="champ_level">1</div>
+        </div>
+        <table class="table table-hover stat-table">
+          <tr>
+            <th>체력</th>
+            <th id="hp">{{hp}}</th>
+          </tr>
+          <!-- <tr>
+                    <th>레벨당 체력 증가량</th>
+                    <th>{{hpperlevel}}</th>
+                </tr> -->
+          <tr>
+            <th>기본 마나</th>
+            <th id="mp">{{mp}}</th>
+          </tr>
+          <!-- <tr>
+                    <th>레벨당 마나 증가량</th>
+                    <th>{{mpperlevel}}</th>
+                </tr> -->
+          <tr>
+            <th>이동속도</th>
+            <th id="movespeed">{{movespeed}}</th>
+          </tr>
+          <tr>
+            <th>방어력</th>
+            <th id="armor">{{armor}}</th>
+          </tr>
+          <!-- <tr>
+                    <th>레벨당 방어력 증가량</th>
+                    <th>{{armorperlevel}}</th>
+                </tr> -->
+          <tr>
+            <th>마법저항력</th>
+            <th id="spellblock">{{spellblock}}</th>
+          </tr>
+          <!-- <tr>
+                    <th>레벨당 마법저항력 증가량</th>
+                    <th>{{spellblockperlevel}}</th>
+                </tr> -->
+          <tr>
+            <th>사거리</th>
+            <th id="attackrange">{{attackrange}}</th>
+          </tr>
+          <tr>
+            <th>초당 체력회복량</th>
+            <th id="hpregen">{{hpregen}}</th>
+          </tr>
+          <!-- <tr>
+                    <th>레벨당 초당 체력회복량 증가량</th>
+                    <th>{{hpregenperlevel}}</th>
+                </tr> -->
+          <tr>
+            <th>초당 마나재생량</th>
+            <th id="mpregen">{{mpregen}}</th>
+          </tr>
+          <!-- <tr>
+                    <th>레벨당 초당 마나재생량 증가량</th>
+                    <th>{{mpregenperlevel}}</th>
+                </tr> -->
+          <tr>
+            <th>치명타확률</th>
+            <th id="crit">{{crit}}</th>
+          </tr>
+          <!-- <tr>
+                    <th>레벨당 치명타 확률 증가량</th>
+                    <th>{{critperlevel}}</th>
+                </tr> -->
+          <tr>
+            <th>공격력</th>
+            <th id="attackdamage">{{attackdamage}}</th>
+          </tr>
+          <!-- <tr>
+                    <th>레벨당 공격력 증가량</th>
+                    <th>{{attackdamageperlevel}}</th>
+                </tr> -->
+          <tr>
+            <th>공격속도</th>
+            <th id="attackspeed">{{attackspeed}}</th>
+          </tr>
+          <!-- <tr>
+                    <th>레벨당 공격속도 증가량</th>
+                    <th>{{attackspeedperlevel}}</th>
+                </tr> -->
+        </table>
+      </div>
+      <div class="champ-memo">
+        <table class="table table-dark table-striped table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>내용</th>
+              <th>작성자</th>
+              <th>작성시간</th>
+            </tr>
+          </thead>
+
+          {% for obj in items_on_page%}
+          <tbody class="table-group-divider">
+            <tr>
+              <td class="content-box">
+                <div class="text-content">{{obj[1]}}</div>
+                <form action="{{ url_for('route.delete_post', writer_id=obj[2], post_num=obj[0]) }}" method="POST" style="display: inline">
+                  <input type="hidden" name="writer_id" value="{{ obj[2] }}" />
+                  <input type="hidden" name="post_num" value="{{ obj[0] }}" />
+                  <button type="submit" class="delete-button">삭제</button>
+                </form>
+              </td>
+              <td><div class="writer">{{obj[3]}}</div></td>
+
+              <td><div class="write-time">{{obj[4]}}</div></td>
+            </tr>
+          </tbody>
+          {% endfor %}
+          <!-- <div>
+            {% if page > 1 %}
+            <a href="{{ url_for('route.product_detail', page=page-1, champ_name=champ_name)}}">이전</a>
+            {% endif %}
+            <span>Page {{page}} of {{total_pages}}</span>
+            {% if page < total_pages %}
+            <a href="{{ url_for('route.product_detail', page=page+1, champ_name=champ_name)}}">다음</a>
+            {% endif %}
+          </div> -->
+          <nav aria-label="...">
+            <ul class="pagination">
+              {% if page > 1 %}
+              <li class="page-item">
+                <a class="page-link" href="{{ url_for('route.product_detail', page=page-1, champ_name=champ_name)}}">Previous</a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <a class="page-link">Previous</a>
+              </li>
+              {% endif %} {% for x in range(total_pages) %} {% if page == x + 1 %}
+              <li class="page-item active" aria-current="page">
+                <a class="page-link" href="{{ url_for('route.product_detail', page=x+1, champ_name=champ_name)}}">{{x + 1}}</a>
+              </li>
+              {% else %}
+              <li class="page-item">
+                <a class="page-link" href="{{ url_for('route.product_detail', page=x+1, champ_name=champ_name)}}">{{x + 1}}</a>
+              </li>
+              {% endif %} {% endfor %} {% if page < total_pages %}
+              <li class="page-item">
+                <a class="page-link" href="{{ url_for('route.product_detail', page=page+1, champ_name=champ_name)}}">Next</a>
+              </li>
+              {% endif %}
+            </ul>
+          </nav>
+        </table>
+        <form method="post" action="/routing/post">
+          <input type="text" class="text-box" name="content" />
+          <button style="margin-top: 10px">write</button>
+        </form>
+        <form method="get" action="/routing/main/normal">
+          <button class="main_page_button">메인페이지로</button>
+        </form>
+      </div>
+    </div>
+    <div class="tip-section">
+      <div style="color: white" class="tip-setting">
+        chat gpt 매치업팁 me : <input type="text" name="me" id="me" /> opponent: <input type="text" name="opp" id="opp" /> line: <input type="text" name="line" id="line" />
+        <input type="hidden" />
+        <button type="submit" id="tip_button">팁 제공</button>
+      </div>
+      <div id="tipbox">AI에게 챔피언별 상대법을 물어보세요!</div>
+    </div>
+    <div class="youtube-section"></div>
+
+    <!-- <script src="/static/js/level_changer.js"></script> -->
+    <script src="/static/js/openAI.js"></script>
+    <script>
+      const levelUp = document.getElementById("up");
+      const levelDown = document.getElementById("down");
+      let level = document.getElementById("champ_level").innerText;
+      level = Number(level);
+
+      const hpperlevel = Number("{{hpperlevel}}");
+      const mpperlevel = Number("{{mpperlevel}}");
+      const armorperlevel = Number("{{armorperlevel}}");
+      const spellblockperlevel = Number("{{spellblockperlevel}}");
+      const hpregenperlevel = Number("{{hpregenperlevel}}");
+      const mpregenperlevel = Number("{{mpregenperlevel}}");
+      const critperlevel = Number("{{critperlevel}}");
+      const attackdamageperlevel = Number("{{attackdamageperlevel}}");
+      const attackspeedperlevel = Number("{{attackspeedperlevel}}");
+
+      function increaseLevel() {
+        if (level < 18) {
+          level += 1;
+          document.getElementById("champ_level").innerText = level;
+          document.getElementById("hp").innerText = Math.round(Number(document.getElementById("hp").innerText) + hpperlevel);
+          document.getElementById("mp").innerText = Math.round(Number(document.getElementById("mp").innerText) + mpperlevel);
+          document.getElementById("armor").innerText = Math.round(Number(document.getElementById("armor").innerText) + armorperlevel);
+          document.getElementById("spellblock").innerText = Math.round(Number(document.getElementById("spellblock").innerText) + spellblockperlevel);
+          document.getElementById("hpregen").innerText = Math.round(Number(document.getElementById("hpregen").innerText) + hpregenperlevel);
+          document.getElementById("mpregen").innerText = Math.round(Number(document.getElementById("mpregen").innerText) + mpregenperlevel);
+          document.getElementById("crit").innerText = Math.round(Number(document.getElementById("crit").innerText) + critperlevel);
+          document.getElementById("attackdamage").innerText = Math.round(Number(document.getElementById("attackdamage").innerText) + attackdamageperlevel);
+          document.getElementById("attackspeed").innerText = Math.round(Number(document.getElementById("attackspeed").innerText) + attackspeedperlevel);
+        }
+      }
+
+      function decreaseLevel() {
+        if (level > 1) {
+          level -= 1;
+          document.getElementById("champ_level").innerText = level;
+          document.getElementById("hp").innerText = Math.round(Number(document.getElementById("hp").innerText) - hpperlevel);
+          document.getElementById("mp").innerText = Math.round(Number(document.getElementById("mp").innerText) - mpperlevel);
+          document.getElementById("armor").innerText = Math.round(Number(document.getElementById("armor").innerText) - armorperlevel);
+          document.getElementById("spellblock").innerText = Math.round(Number(document.getElementById("spellblock").innerText) - spellblockperlevel);
+          document.getElementById("hpregen").innerText = Math.round(Number(document.getElementById("hpregen").innerText) - hpregenperlevel);
+          document.getElementById("mpregen").innerText = Math.round(Number(document.getElementById("mpregen").innerText) - mpregenperlevel);
+          document.getElementById("crit").innerText = Math.round(Number(document.getElementById("crit").innerText) + critperlevel);
+          document.getElementById("attackdamage").innerText = Math.round(Number(document.getElementById("attackdamage").innerText) - attackdamageperlevel);
+          document.getElementById("attackspeed").innerText = Math.round(Number(document.getElementById("attackspeed").innerText) - attackspeedperlevel);
+        }
+      }
+
+      levelUp.addEventListener("click", increaseLevel);
+      levelDown.addEventListener("click", decreaseLevel);
+    </script>
+  </body>
+</html>
