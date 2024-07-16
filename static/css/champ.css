@@ -141,28 +141,41 @@ thead > tr {
 }
 
 /*tipbox관련--------------------------------------*/
+.tip_and_youtube {
+  display: flex;
+}
+
 .tip-section {
   background-color: #31313c;
-  width: 80%;
+  width: 50%;
   margin-left: 5rem;
 }
 
 #me,
 #opp {
   background-color: white;
+  width: 20%;
   color: black;
 }
 
 #tipbox {
   color: black;
-  width: 1000px;
+  width: 80%;
   height: 500px;
   background-color: white;
   margin-left: 5rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  overflow: scroll;
 }
 
 .tip-setting {
   margin-left: 5rem;
+}
+
+/*youtube관련*/
+.youtube-section {
+  background-color: #31313c;
+  width: 50rem;
+  margin-left: 1rem;
 }

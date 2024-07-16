@@ -126,20 +126,32 @@
         {% endfor %}
       </div>
     </div>
-    <div class="tip-section">
-      <div style="color: white" class="tip-setting">
-        <div>chat gpt 매치업팁</div>
-        me:
-        <div id="me">{{champ_name}}</div>
-        opponent:
-        <div id="opp">상대 챔피언</div>
-        line: <input type="text" name="line" id="line" />
-        <input type="hidden" />
-        <button type="submit" id="tip_button">팁 제공</button>
+    <div class="tip_and_youtube">
+      <div class="tip-section">
+        <div style="color: white" class="tip-setting">
+          <div>chat gpt 매치업팁</div>
+          me
+          <div id="me">{{champ_name}}</div>
+          opponent
+          <div id="opp">상대 챔피언</div>
+          line
+          <!-- line<input type="text" name="line" id="line" /> -->
+          <select name="line" id="line">
+            <option value="탑">탑</option>
+            <option value="정글">정글</option>
+            <option value="미드">미드</option>
+            <option value="원딜">원딜</option>
+            <option value="서포터">서포터</option>
+          </select>
+          <input type="hidden" />
+          <button type="submit" id="tip_button">팁 제공</button>
+        </div>
+        <div id="tipbox">AI에게 챔피언별 상대법을 물어보세요!</div>
       </div>
-      <div id="tipbox">AI에게 챔피언별 상대법을 물어보세요!</div>
+      <div class="youtube-section">
+        <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed?listType=search&list=" frameborder="0"></iframe>
+      </div>
     </div>
-    <div class="youtube-section"></div>
 
     <div class="champ-memo-section">
       <table class="table table-dark table-striped table-hover">
@@ -211,7 +223,7 @@
         <button class="main_page_button">메인페이지로</button>
       </form>
     </div>
-    <!-- <script src="/static/js/level_changer.js"></script> -->
+
     <script src="/static/js/openAI.js"></script>
     <script>
       const opp_img_list = document.getElementsByClassName("opp-img");
@@ -219,7 +231,7 @@
 
       for (let i = 0; i < opp_img_list.length; i++)
         opp_img_list[i].addEventListener("click", () => {
-          console.log(opp_img_list[i].dataset.champname);
+          //console.log(opp_img_list[i].dataset.champname);
           opp_box.innerText = opp_img_list[i].dataset.champname;
         });
     </script>
