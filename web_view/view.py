@@ -38,6 +38,9 @@ def main(errmsg):
     champion_name=[]
     for data in champion_data["data"]:
         champion_name.append(data)
+    champ_name_kor_list = []
+    for i in champion_data["data"]:
+        champ_name_kor_list.append(champion_data["data"][i]['name'])
     Fighter = []
     Tank =[]
     Mage=[]
@@ -152,9 +155,16 @@ def product_detail(champ_name):
     champ_data = []
     for data in champion_raw_data["data"]:
         champ_name_list.append(data)
-    for i in range(len(champion_raw_data["data"])):
-       champ_data.append([champ_name_list[i], "/static/img/champ_img/" + champ_name_list[i] + ".png"])
+    champ_name_kor_list = []
+    for i in champion_raw_data["data"]:
+        champ_name_kor_list.append(champion_raw_data["data"][i]['name'])    
     
+    for i in range(len(champion_raw_data["data"])):
+       champ_data.append([champ_name_kor_list[i], "/static/img/champ_img/" + champ_name_list[i] + ".png"])
+    champ_name_kor = champion_raw_data['data'][champ_name]['name']
+    champ_title = champion_raw_data['data'][champ_name]['title']
+    champ_blurb = champion_raw_data['data'][champ_name]['blurb']
+    champ_tags = champion_raw_data['data'][champ_name]['blurb']
     #챔프별 클릭수 계산 후 sorting
     if champ_name in click_num:
         click_num[champ_name] = click_num[champ_name] + 1
@@ -194,7 +204,8 @@ def product_detail(champ_name):
     
     return render_template('champ.html', items_on_page=items_on_page, total_pages=total_pages, page=page, champ_name=champ_name, 
                            attack=attack, defense=defense, magic=magic, difficulty=difficulty,
-                             champ_img=champ_img, openai_api_key= openai_api_key, champ_data=champ_data)
+                             champ_img=champ_img, openai_api_key= openai_api_key, champ_data=champ_data, champ_name_kor_list=champ_name_kor_list
+                             , champ_name_kor= champ_name_kor, champ_title=champ_title, champ_blurb=champ_blurb, champ_tags=champ_tags)
 
     
 

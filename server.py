@@ -38,8 +38,8 @@ def index():
         champion_data = json.load(json_file)
     
     champion_name=[]
-    for data in champion_data["data"]:
-        champion_name.append(data)
+    for i in champion_data["data"]:
+        champion_name.append(champion_data['data'][i]['name'])
     Fighter = []
     Tank =[]
     Mage=[]

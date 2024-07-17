@@ -27,6 +27,26 @@ body {
   background-color: #31313c;
 }
 
+.champ-title {
+  display: flex;
+}
+
+.champ-nickname {
+  margin-top: 0.3rem;
+}
+
+.champ-name {
+  font-size: x-large;
+}
+
+.champ-blurb {
+  margin-top: 1rem;
+}
+
+.champ-stat {
+  margin-top: 1rem;
+}
+
 /*champ-opponent*/
 .opponent-selection {
   margin-top: 5rem;
@@ -38,7 +58,8 @@ body {
   flex-wrap: wrap; /*flex-item들이 flex-container의 크기를 넘길때, 어떻게 처리하는지에 관련된 속성*/
   overflow: auto;
 }
-.small-champ-img {
+.small-champ-img:hover {
+  cursor: pointer;
 }
 .champ_box {
   display: flex;
@@ -108,14 +129,18 @@ thead > tr {
 .champ-memo-section > table {
   height: 200px;
   table-layout: fixed;
+  width: 80%;
 }
 
 .champ-memo-section {
-  margin-top: 8rem;
+  margin-top: 1rem;
   margin-left: 5rem;
-  margin-right: 2rem;
-  height: 200px;
+  margin-bottom: 3rem;
   background-color: #31313c;
+  width: 93%;
+  height: 34rem;
+  padding: 1rem;
+  overflow: auto;
 }
 
 .content-box {
@@ -138,6 +163,29 @@ thead > tr {
 .text-box {
   width: 80%;
   height: 5rem;
+  display: block;
+}
+
+.content {
+  width: 60%;
+}
+
+.write-button {
+  margin-top: 0.5rem;
+}
+
+.main-page-button {
+  margin-top: 0.5rem;
+}
+
+.delete-button {
+  width: 3rem;
+}
+
+.page-item .page-link {
+  background-color: #ffffff;
+  border-color: #6610f2;
+  color: #6610f2;
 }
 
 /*tipbox관련--------------------------------------*/
@@ -149,6 +197,11 @@ thead > tr {
   background-color: #31313c;
   width: 50%;
   margin-left: 5rem;
+  padding: 1rem;
+}
+
+#tip-title {
+  margin-bottom: 0.5rem;
 }
 
 #me,
@@ -160,17 +213,19 @@ thead > tr {
 
 #tipbox {
   color: black;
-  width: 80%;
+  width: 100%;
   height: 500px;
   background-color: white;
-  margin-left: 5rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+
   overflow: scroll;
 }
 
 .tip-setting {
-  margin-left: 5rem;
+  margin-bottom: 0.5rem;
+}
+
+#tip-button {
+  margin-top: 0.5rem;
 }
 
 /*youtube관련*/
@@ -178,4 +233,12 @@ thead > tr {
   background-color: #31313c;
   width: 50rem;
   margin-left: 1rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+#player {
+  aspect-ratio: 16 / 9;
+  width: 100%;
 }

@@ -28,10 +28,12 @@
         <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/loading/{{champ_name}}_0.jpg" alt="" />
       </div>
       <div class="champ-description">
-        <div>챔피언이름</div>
-        <div>역할군</div>
-        <div>설명</div>
-        <div>
+        <div class="champ-title">
+          <div class="champ-nickname">{{champ_title}},&nbsp;&nbsp;&nbsp;</div>
+          <div class="champ-name">{{champ_name_kor}}</div>
+        </div>
+        <div class="champ-blurb">{{champ_blurb}}</div>
+        <div class="champ-stat">
           공격력 {% if attack >= 1 and attack <= 2 %}
           <div class="progress progress-bar-custom" role="progressbar" aria-label="Info example" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
             <div class="progress-bar text-dark" style="width: 20%">1</div>
@@ -129,12 +131,11 @@
     <div class="tip_and_youtube">
       <div class="tip-section">
         <div style="color: white" class="tip-setting">
-          <div>chat gpt 매치업팁</div>
-          me
-          <div id="me">{{champ_name}}</div>
-          opponent
+          <div id="tip-title">AI 매치업팁</div>
+          <div id="me">{{champ_name_kor}}</div>
+          VS
           <div id="opp">상대 챔피언</div>
-          line
+          라인
           <!-- line<input type="text" name="line" id="line" /> -->
           <select name="line" id="line">
             <option value="탑">탑</option>
@@ -144,12 +145,12 @@
             <option value="서포터">서포터</option>
           </select>
           <input type="hidden" />
-          <button type="submit" id="tip_button">팁 제공</button>
+          <button type="submit" id="tip-button">팁 제공</button>
         </div>
         <div id="tipbox">AI에게 챔피언별 상대법을 물어보세요!</div>
       </div>
       <div class="youtube-section">
-        <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed?listType=search&list=" frameborder="0"></iframe>
+        <div id="player"></div>
       </div>
     </div>
 
@@ -157,9 +158,9 @@
       <table class="table table-dark table-striped table-hover">
         <thead class="table-light">
           <tr>
-            <th>내용</th>
-            <th>작성자</th>
-            <th>작성시간</th>
+            <th class="content">내용</th>
+            <th class="writer">작성자</th>
+            <th class="write-time">작성시간</th>
           </tr>
         </thead>
 
@@ -180,15 +181,7 @@
           </tr>
         </tbody>
         {% endfor %}
-        <!-- <div>
-          {% if page > 1 %}
-          <a href="{{ url_for('route.product_detail', page=page-1, champ_name=champ_name)}}">이전</a>
-          {% endif %}
-          <span>Page {{page}} of {{total_pages}}</span>
-          {% if page < total_pages %}
-          <a href="{{ url_for('route.product_detail', page=page+1, champ_name=champ_name)}}">다음</a>
-          {% endif %}
-        </div> -->
+
         <nav aria-label="...">
           <ul class="pagination">
             {% if page > 1 %}
@@ -197,7 +190,7 @@
             </li>
             {% else %}
             <li class="page-item disabled">
-              <a class="page-link">Previous</a>
+              <a class="page-link">이전</a>
             </li>
             {% endif %} {% for x in range(total_pages) %} {% if page == x + 1 %}
             <li class="page-item active" aria-current="page">
@@ -217,13 +210,54 @@
       </table>
       <form method="post" action="/routing/post">
         <input type="text" class="text-box" name="content" />
-        <button style="margin-top: 10px">write</button>
+        <button class="write-button">글 작성</button>
       </form>
       <form method="get" action="/routing/main/normal">
-        <button class="main_page_button">메인페이지로</button>
+        <button class="main-page-button">메인페이지로</button>
       </form>
     </div>
 
+    <script>
+      const API_KEY = "AIzaSyAjMqrT892HDqgUAOOAhkYkXwngMOZ0DhQ";
+      const SEARCH_QUERY = "롤 " + "{{champ_name_kor}}" + "초보 강의";
+
+      let tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      let firstScriptTag = document.getElementsByTagName("script")[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      let player;
+      function onYouTubeIframeAPIReady() {
+        // 검색 결과를 가져오기 위해 YouTube Data API 호출
+        fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(SEARCH_QUERY)}&key=${API_KEY}`)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.items.length > 0) {
+              // 첫 번째 검색 결과의 비디오 ID 가져오기
+              const videoId = data.items[0].id.videoId;
+              // YouTube 플레이어 생성
+              player = new YT.Player("player", {
+                //height: "360",
+                //width: "640",
+                videoId: videoId,
+                events: {
+                  //onReady: onPlayerReady,
+                },
+              });
+            } else {
+              console.error("검색 결과가 없습니다.");
+            }
+          })
+          .catch((error) => console.error("YouTube Data API 호출 중 오류 발생:", error));
+      }
+
+      // 플레이어가 준비되면 호출되는 함수
+      /*
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
+      */
+    </script>
     <script src="/static/js/openAI.js"></script>
     <script>
       const opp_img_list = document.getElementsByClassName("opp-img");
