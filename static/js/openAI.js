@@ -1,5 +1,5 @@
 //OPEN AI API를 이용해 gpt에게 챔피언 매치팁을 물어보는 기능
-const button = document.getElementById("tip_button");
+const button = document.getElementById("tip-button");
 button.addEventListener("click", askTips);
 
 const apiUrl = "https://api.openai.com/v1/chat/completions";
@@ -80,5 +80,8 @@ function askTips() {
     .then((data) => {
       console.log("Success:", data.choices[0].message.content);
       tipbox.innerText = data.choices[0].message.content;
+    })
+    .catch((error) => {
+      console.error(error);
     });
 }

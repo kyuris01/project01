@@ -3,7 +3,7 @@
 }
 
 a {
-  text-decoration:none;
+  text-decoration: none;
   color: black;
 }
 
@@ -12,7 +12,22 @@ body {
   font-weight: 400;
   font-style: normal;
 }
+/*img-title-section*/
+.img-section-text {
+  position: absolute;
+  color: black;
+  font-size: 3rem;
+  top: 10rem;
+  left: 17rem;
+}
 
+.img-section-text-2 {
+  position: absolute;
+  color: black;
+  font-size: 1.5rem;
+  top: 14rem;
+  left: 17rem;
+}
 
 .session_menu {
   margin-left: 2rem;
@@ -43,12 +58,28 @@ img {
   justify-content: space-between;
   position: fixed;
   width: 100%;
+  z-index: 1000;
 }
 
-.main_image {
-  background-image: url("../img/lol_banner.png");
+.main-image {
   height: 30rem;
   background-size: cover;
+  position: relative;
+  font-family: "Nanum Gothic";
+  font-weight: 700;
+  font-style: normal;
+}
+
+.main-image::before {
+  content: "";
+  background-image: url("../img/lol_banner.png");
+  background-size: cover;
+  position: absolute;
+  opacity: 0.7;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
 }
 
 .champions_box {
@@ -61,8 +92,6 @@ img {
 .champ_container {
   display: flex;
   width: 100%;
-  
-  
   margin-top: 1rem;
   align-items: center;
 }
@@ -70,11 +99,11 @@ img {
 .champ_category {
   margin-top: 1rem;
   margin-bottom: 1rem;
-  display:flex;
+  display: flex;
 }
 
 .arrow-box {
-  margin-left : 1rem;
+  margin-left: 1rem;
 }
 
 .champion {
@@ -85,46 +114,61 @@ img {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   flex-shrink: 0;
+  display: flex;
+  position: relative;
+  justify-content: center;
   /*aspect-ratio: 1;*/ /*이미지나 비디오 동영상, div 요소 등 요소 박스의 가로(width) 세로(height) 비율을 쉽게 유지하거나 조정, 설정할 수 있는 속성*/
 }
 
-.champion:hover {
+.champ-name-hover {
+  position: absolute;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s;
+  top: 4.3rem;
+}
+
+.champ-img:hover {
   filter: brightness(0.5);
+}
+
+.champion:hover .champ-name-hover {
+  opacity: 1;
 }
 
 footer {
   height: 10rem;
-  background-color: rgb(234,234,234);
-  margin-top:2rem;
+  background-color: rgb(234, 234, 234);
+  margin-top: 2rem;
 }
 
 .footer {
-  padding-top:4rem;
-  text-align:center;
+  padding-top: 4rem;
+  text-align: center;
 }
 
 .slide-prev {
   font-size: 1.5rem;
-  color:black;
-  cursor:pointer;
+  color: black;
+  cursor: pointer;
 }
 
 .slide-next {
   font-size: 1.5rem;
-  color:grey;
-  cursor:pointer;
+  color: grey;
+  cursor: pointer;
 }
 
 .slide-prev-hover:hover {
-  transition : transform 0.5s;
-  transform : translateX(-2px); /*버튼이 살짝 움직이는 효과*/
+  transition: transform 0.5s;
+  transform: translateX(-2px); /*버튼이 살짝 움직이는 효과*/
 }
 
 .slide-next-hover:hover {
-  transition : transform 0.5s;
-  transform : translateX(2px);
+  transition: transform 0.5s;
+  transform: translateX(2px);
 }
 
 .champ_role {
-  font-size:1.5rem;
+  font-size: 1.5rem;
 }

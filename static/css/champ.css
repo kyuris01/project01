@@ -58,9 +58,31 @@ body {
   flex-wrap: wrap; /*flex-item들이 flex-container의 크기를 넘길때, 어떻게 처리하는지에 관련된 속성*/
   overflow: auto;
 }
-.small-champ-img:hover {
+
+.small-champ-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.champ-name-hover {
+  position: absolute;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s;
+  overflow: hidden;
+}
+
+.opp-img:hover {
+  filter: brightness(0.5);
   cursor: pointer;
 }
+
+.small-champ-img:hover .champ-name-hover {
+  opacity: 1;
+}
+
 .champ_box {
   display: flex;
   justify-content: flex-start;
@@ -75,61 +97,11 @@ body {
 
 /*----------------------*/
 
-table,
-th,
-td {
-  border: 3px solid #444444;
-}
-
-/* th {
-  width : 250px;
-  min-width: 250px;
-  max-width: 250px;
-  윈도우 사이즈 줄였을때 테이블이 줄어드는것을 방지
-} */
-
-table {
-  table-layout: fixed;
-}
-
-.stat-table th {
-  width: 130px;
-  color: black;
-}
-
-thead > tr > th {
-  width: 300px;
-}
-
-.level_box {
-  height: 3rem;
-  display: flex;
-}
-
-.level_box > i {
-  margin-right: 1rem;
-}
-
-.main_page_button {
-  margin-top: 1rem;
-}
-
-thead > tr {
-  height: 5px;
-}
-
 /* champ-memo 관련 부분 */
-/* .champ_memo > table > tbody > tr > td{
-  text-overflow: ellipsis;
-  overflow : hidden;
-  white-space: nowrap;
-  height : 50px;
-} */
-
 .champ-memo-section > table {
-  height: 200px;
+  height: 20rem;
   table-layout: fixed;
-  width: 80%;
+  width: 100%;
 }
 
 .champ-memo-section {
@@ -143,13 +115,17 @@ thead > tr {
   overflow: auto;
 }
 
+.text-content-head {
+  width: 60%;
+}
+
+.table-header {
+  height: 1rem;
+}
+
 .content-box {
   display: flex;
   justify-content: space-between;
-}
-
-.table-light > tr > th {
-  height: 5px;
 }
 
 .text-content {
@@ -160,14 +136,10 @@ thead > tr {
   overflow: hidden;
 }
 
-.text-box {
-  width: 80%;
+.text-write {
+  width: 100%;
   height: 5rem;
   display: block;
-}
-
-.content {
-  width: 60%;
 }
 
 .write-button {
@@ -186,6 +158,24 @@ thead > tr {
   background-color: #ffffff;
   border-color: #6610f2;
   color: #6610f2;
+}
+
+/* thead > tr > th {
+  width: 300px;
+}
+
+thead > tr {
+  height: 5px;
+} */
+
+/* tbody > tr > td {
+  max-height: 3rem;
+} */
+
+table,
+th,
+td {
+  border: 3px solid #444444;
 }
 
 /*tipbox관련--------------------------------------*/

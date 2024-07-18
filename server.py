@@ -39,7 +39,12 @@ def index():
     
     champion_name=[]
     for i in champion_data["data"]:
-        champion_name.append(champion_data['data'][i]['name'])
+        champion_name.append(i)
+        
+    champ_name_kor_list=[]
+    for i in champion_data["data"]:
+        champ_name_kor_list.append(champion_data['data'][i]['name'])
+    
     Fighter = []
     Tank =[]
     Mage=[]
@@ -48,17 +53,17 @@ def index():
     Support=[]
     for i in range(len(champion_data["data"])): #[["aatrox", ".....png"],[],...]
         if "Fighter" in champion_data["data"][champion_name[i]]["tags"]:
-            Fighter.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png"])
+            Fighter.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png", champ_name_kor_list[i]])
         if "Tank" in champion_data["data"][champion_name[i]]["tags"]:
-            Tank.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png"])
+            Tank.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png", champ_name_kor_list[i]])
         if "Mage" in champion_data["data"][champion_name[i]]["tags"]:
-            Mage.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png"])
+            Mage.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png", champ_name_kor_list[i]])
         if "Assassin" in champion_data["data"][champion_name[i]]["tags"]:
-            Assassin.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png"])
+            Assassin.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png", champ_name_kor_list[i]])
         if "Marksman" in champion_data["data"][champion_name[i]]["tags"]:
-            Marksman.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png"])
+            Marksman.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png", champ_name_kor_list[i]])
         if "Support" in champion_data["data"][champion_name[i]]["tags"]:
-            Support.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png"])
+            Support.append([champion_name[i], "../static/img/champ_img/" + champion_name[i] + ".png", champ_name_kor_list[i]])
                                                                                                          #리스트가 빈 리스트로 초기화되었을 경우, 리스트의 인덱스에
                                                                                                         #직접값을 할당할수없다. 대신 append()메서드를 이용!
 # Support.append([champion_name[i], "http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + champion_name[i] + ".png"])

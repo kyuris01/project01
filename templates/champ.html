@@ -124,6 +124,7 @@
         {% for url in champ_data %}
         <div class="small-champ-img">
           <img class="opp-img" src="{{url[1]}}" alt="Champion Image" data-champname="{{url[0]}}" />
+          <div class="champ-name-hover">{{url[0]}}</div>
         </div>
         {% endfor %}
       </div>
@@ -136,7 +137,6 @@
           VS
           <div id="opp">상대 챔피언</div>
           라인
-          <!-- line<input type="text" name="line" id="line" /> -->
           <select name="line" id="line">
             <option value="탑">탑</option>
             <option value="정글">정글</option>
@@ -155,17 +155,17 @@
     </div>
 
     <div class="champ-memo-section">
-      <table class="table table-dark table-striped table-hover">
-        <thead class="table-light">
+      <table class="table table-dark table-hover">
+        <thead class="table-header">
           <tr>
-            <th class="content">내용</th>
-            <th class="writer">작성자</th>
-            <th class="write-time">작성시간</th>
+            <th class="text-content-head">내용</th>
+            <th class="writer-head">작성자</th>
+            <th class="write-time-head">작성시간</th>
           </tr>
         </thead>
 
-        {% for obj in items_on_page%}
         <tbody class="table-group-divider">
+          {% for obj in items_on_page%}
           <tr>
             <td class="content-box">
               <div class="text-content">{{obj[1]}}</div>
@@ -179,14 +179,14 @@
 
             <td><div class="write-time">{{obj[4]}}</div></td>
           </tr>
+          {% endfor %}
         </tbody>
-        {% endfor %}
 
         <nav aria-label="...">
           <ul class="pagination">
             {% if page > 1 %}
             <li class="page-item">
-              <a class="page-link" href="{{ url_for('route.product_detail', page=page-1, champ_name=champ_name)}}">Previous</a>
+              <a class="page-link" href="{{ url_for('route.product_detail', page=page-1, champ_name=champ_name)}}">이전</a>
             </li>
             {% else %}
             <li class="page-item disabled">
@@ -202,14 +202,14 @@
             </li>
             {% endif %} {% endfor %} {% if page < total_pages %}
             <li class="page-item">
-              <a class="page-link" href="{{ url_for('route.product_detail', page=page+1, champ_name=champ_name)}}">Next</a>
+              <a class="page-link" href="{{ url_for('route.product_detail', page=page+1, champ_name=champ_name)}}">다음</a>
             </li>
             {% endif %}
           </ul>
         </nav>
       </table>
       <form method="post" action="/routing/post">
-        <input type="text" class="text-box" name="content" />
+        <input type="text" class="text-write" name="content" />
         <button class="write-button">글 작성</button>
       </form>
       <form method="get" action="/routing/main/normal">
@@ -217,8 +217,8 @@
       </form>
     </div>
 
-    <script>
-      const API_KEY = "AIzaSyAjMqrT892HDqgUAOOAhkYkXwngMOZ0DhQ";
+    <!-- <script>
+      const API_KEY = "{{YOUTUBE_API_KEY}}";
       const SEARCH_QUERY = "롤 " + "{{champ_name_kor}}" + "초보 강의";
 
       let tag = document.createElement("script");
@@ -251,13 +251,7 @@
           .catch((error) => console.error("YouTube Data API 호출 중 오류 발생:", error));
       }
 
-      // 플레이어가 준비되면 호출되는 함수
-      /*
-      function onPlayerReady(event) {
-        event.target.playVideo();
-      }
-      */
-    </script>
+    </script> -->
     <script src="/static/js/openAI.js"></script>
     <script>
       const opp_img_list = document.getElementsByClassName("opp-img");

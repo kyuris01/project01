@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/static/css/style.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
@@ -26,7 +27,9 @@
     </header>
     <nav>
       <div class="nav_box">
-        <div class="logo_box"><img src="/static/img/Lollipop.png" alt="사이트로고" /></div>
+        <div class="logo_box">
+          <a href="/routing/main/normal"><img src="/static/img/Lollipop.png" alt="사이트로고" /></a>
+        </div>
         <div class="session_box">
           {% if nickname != null %}
           <div class="session_menu">{{nickname}}님, 안녕하세요</div>
@@ -41,10 +44,13 @@
       </div>
     </nav>
     <section>
-      <div class="main_image"></div>
+      <div class="main-image">
+        <div class="img-section-text">Lollipop을 통해 LoL과 친숙해져보세요</div>
+        <div class="img-section-text-2">초보자와 뉴비를 위한, 단순화된 롤정보 사이트</div>
+      </div>
       <div class="champions_box">
         <div class="champ_category">
-          <div class="champ_role">Hottest</div>
+          <div class="champ_role">인기 챔피언</div>
           <!-- <div class="arrow-box">
             <i class="bi bi-caret-left-square-fill slide-prev"></i>
             <i class="bi bi-caret-right-square-fill slide-next"></i>
@@ -54,13 +60,15 @@
         <div class="champ_container" id="Hottest" data-position="0">
           {% for url in Hottest %}
           <div class="champion">
-            <a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src="{{url[1]}}" alt="Champion Image" data-champname="{{url[0]}}" /></a>
+            <a href="/routing/champion/{{url[0]}}" class="champ_detail"><img class="champ-img" src="{{url[1]}}" alt="Champion Image" data-champname="{{url[0]}}" /></a>
+            <div class="champ-name-hover">{{url[2]}}</div>
           </div>
+
           {% endfor %}
         </div>
 
         <div class="champ_category">
-          <div class="champ_role">Fighter</div>
+          <div class="champ_role">전사</div>
           <div class="arrow-box">
             <i class="bi bi-caret-left-square-fill slide-prev"></i>
             <i class="bi bi-caret-right-square-fill slide-next"></i>
@@ -69,13 +77,15 @@
         <div class="champ_container" data-position="0">
           {% for url in Fighter %}
           <div class="champion">
-            <a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src="{{url[1]}}" alt="Champion Image" data-champname="{{url[0]}}" /></a>
+            <a href="/routing/champion/{{url[0]}}" class="champ_detail"><img class="champ-img" src="{{url[1]}}" alt="Champion Image" data-champname="{{url[0]}}" /></a>
+            <div class="champ-name-hover">{{url[2]}}</div>
           </div>
+
           {% endfor %}
         </div>
 
         <div class="champ_category">
-          <div class="champ_role">Tank</div>
+          <div class="champ_role">탱커</div>
           <div class="arrow-box">
             <i class="bi bi-caret-left-square-fill slide-prev"></i>
             <i class="bi bi-caret-right-square-fill slide-next"></i>
@@ -84,13 +94,15 @@
         <div class="champ_container" data-position="0">
           {% for url in Tank %}
           <div class="champion">
-            <a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src="{{url[1]}}" alt="Champion Image" data-champname="{{url[0]}}" /></a>
+            <a href="/routing/champion/{{url[0]}}" class="champ_detail"><img class="champ-img" src="{{url[1]}}" alt="Champion Image" data-champname="{{url[0]}}" /></a>
+            <div class="champ-name-hover">{{url[2]}}</div>
           </div>
+
           {% endfor %}
         </div>
 
         <div class="champ_category">
-          <div class="champ_role">Mage</div>
+          <div class="champ_role">마법사</div>
           <div class="arrow-box">
             <i class="bi bi-caret-left-square-fill slide-prev"></i>
             <i class="bi bi-caret-right-square-fill slide-next"></i>
@@ -99,13 +111,15 @@
         <div class="champ_container" data-position="0">
           {% for url in Mage %}
           <div class="champion">
-            <a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src="{{url[1]}}" alt="Champion Image" data-champname="{{url[0]}}" /></a>
+            <a href="/routing/champion/{{url[0]}}" class="champ_detail"><img class="champ-img" src="{{url[1]}}" alt="Champion Image" data-champname="{{url[0]}}" /></a>
+            <div class="champ-name-hover">{{url[2]}}</div>
           </div>
+
           {% endfor %}
         </div>
 
         <div class="champ_category">
-          <div class="champ_role">Assassin</div>
+          <div class="champ_role">암살자</div>
           <div class="arrow-box">
             <i class="bi bi-caret-left-square-fill slide-prev"></i>
             <i class="bi bi-caret-right-square-fill slide-next"></i>
@@ -114,13 +128,15 @@
         <div class="champ_container" data-position="0">
           {% for url in Assassin %}
           <div class="champion">
-            <a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src="{{url[1]}}" alt="Champion Image" data-champname="{{url[0]}}" /></a>
+            <a href="/routing/champion/{{url[0]}}" class="champ_detail"><img class="champ-img" src="{{url[1]}}" alt="Champion Image" data-champname="{{url[0]}}" /></a>
+            <div class="champ-name-hover">{{url[2]}}</div>
           </div>
+
           {% endfor %}
         </div>
 
         <div class="champ_category">
-          <div class="champ_role">Marksman</div>
+          <div class="champ_role">저격수</div>
           <div class="arrow-box">
             <i class="bi bi-caret-left-square-fill slide-prev"></i>
             <i class="bi bi-caret-right-square-fill slide-next"></i>
@@ -129,13 +145,15 @@
         <div class="champ_container" data-position="0">
           {% for url in Marksman %}
           <div class="champion">
-            <a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src="{{url[1]}}" alt="Champion Image" data-champname="{{url[0]}}" /></a>
+            <a href="/routing/champion/{{url[0]}}" class="champ_detail"><img class="champ-img" src="{{url[1]}}" alt="Champion Image" data-champname="{{url[0]}}" /></a>
+            <div class="champ-name-hover">{{url[2]}}</div>
           </div>
+
           {% endfor %}
         </div>
 
         <div class="champ_category">
-          <div class="champ_role">Support</div>
+          <div class="champ_role">서포터</div>
           <div class="arrow-box">
             <i class="bi bi-caret-left-square-fill slide-prev"></i>
             <i class="bi bi-caret-right-square-fill slide-next"></i>
@@ -144,8 +162,10 @@
         <div class="champ_container" data-position="0">
           {% for url in Support %}
           <div class="champion">
-            <a href="/routing/champion/{{url[0]}}" class="champ_detail"><img src="{{url[1]}}" alt="Champion Image" data-champname="{{url[0]}}" /></a>
+            <a href="/routing/champion/{{url[0]}}" class="champ_detail"><img class="champ-img" src="{{url[1]}}" alt="Champion Image" data-champname="{{url[0]}}" /></a>
+            <div class="champ-name-hover">{{url[2]}}</div>
           </div>
+
           {% endfor %}
         </div>
       </div>

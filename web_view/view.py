@@ -25,11 +25,6 @@ def regex_pw (pw):
     else:
         return False
     
-def final_stat_cal (stat, stat_per_level):
-    for i, j in stat, stat_per_level:
-        stat[i] = stat[i]+stat_per_level[j]*17
-    return stat
-
 @routing_object.route('/main/<errmsg>') #메인페이지로 돌려보내는 로직
 def main(errmsg):
     with open('champion_data.json', 'r') as json_file:
@@ -50,22 +45,22 @@ def main(errmsg):
     Hottest = []
     for i in range(len(champion_data["data"])):
         if "Fighter" in champion_data["data"][champion_name[i]]["tags"]:
-            Fighter.append([champion_name[i], "/static/img/champ_img/" + champion_name[i] + ".png"])
+            Fighter.append([champion_name[i], "/static/img/champ_img/" + champion_name[i] + ".png", champ_name_kor_list[i]])
         if "Tank" in champion_data["data"][champion_name[i]]["tags"]:
-            Tank.append([champion_name[i], "/static/img/champ_img/" + champion_name[i] + ".png"])
+            Tank.append([champion_name[i], "/static/img/champ_img/" + champion_name[i] + ".png", champ_name_kor_list[i]])
         if "Mage" in champion_data["data"][champion_name[i]]["tags"]:
-            Mage.append([champion_name[i], "/static/img/champ_img/" + champion_name[i] + ".png"])
+            Mage.append([champion_name[i], "/static/img/champ_img/" + champion_name[i] + ".png", champ_name_kor_list[i]])
         if "Assassin" in champion_data["data"][champion_name[i]]["tags"]:
-            Assassin.append([champion_name[i], "/static/img/champ_img/" + champion_name[i] + ".png"])
+            Assassin.append([champion_name[i], "/static/img/champ_img/" + champion_name[i] + ".png", champ_name_kor_list[i]])
         if "Marksman" in champion_data["data"][champion_name[i]]["tags"]:
-            Marksman.append([champion_name[i], "/static/img/champ_img/" + champion_name[i] + ".png"])
+            Marksman.append([champion_name[i], "/static/img/champ_img/" + champion_name[i] + ".png", champ_name_kor_list[i]])
         if "Support" in champion_data["data"][champion_name[i]]["tags"]:
-            Support.append([champion_name[i], "/static/img/champ_img/" + champion_name[i] + ".png"])
+            Support.append([champion_name[i], "/static/img/champ_img/" + champion_name[i] + ".png", champ_name_kor_list[i]])
     #server.py를 import해서 이미지리스트 변수 사용하는것의 문제점 --> blueprint경로들이 꼬임
     
     for i in range(len(sorted_champ)):
         #print("sortedchamp :", sorted_champ)
-        Hottest.append([sorted_champ[i][0],"http://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/" + sorted_champ[i][0] + ".png" ])
+        Hottest.append([sorted_champ[i][0],"/static/img/champ_img/" + sorted_champ[i][0] + ".png", champion_data["data"][sorted_champ[i][0]]['name']])
     
                                                                                                          
     if current_user.is_authenticated:
@@ -165,6 +160,7 @@ def product_detail(champ_name):
     champ_title = champion_raw_data['data'][champ_name]['title']
     champ_blurb = champion_raw_data['data'][champ_name]['blurb']
     champ_tags = champion_raw_data['data'][champ_name]['blurb']
+    
     #챔프별 클릭수 계산 후 sorting
     if champ_name in click_num:
         click_num[champ_name] = click_num[champ_name] + 1
@@ -204,8 +200,10 @@ def product_detail(champ_name):
     
     return render_template('champ.html', items_on_page=items_on_page, total_pages=total_pages, page=page, champ_name=champ_name, 
                            attack=attack, defense=defense, magic=magic, difficulty=difficulty,
-                             champ_img=champ_img, openai_api_key= openai_api_key, champ_data=champ_data, champ_name_kor_list=champ_name_kor_list
-                             , champ_name_kor= champ_name_kor, champ_title=champ_title, champ_blurb=champ_blurb, champ_tags=champ_tags)
+                             champ_img=champ_img, openai_api_key= openai_api_key, champ_data=champ_data, 
+                             champ_name_kor_list=champ_name_kor_list, champ_name_kor = champ_name_kor, 
+                             champ_title=champ_title, champ_blurb=champ_blurb, champ_tags=champ_tags
+                             , YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY"))
 
     
 
