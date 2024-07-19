@@ -30,10 +30,11 @@ def main(errmsg):
     with open('champion_data.json', 'r') as json_file:
         champion_data = json.load(json_file)
         
-    champion_name=[]
+    champion_name = []
+    champ_name_kor_list = []
     for data in champion_data["data"]:
         champion_name.append(data)
-    champ_name_kor_list = []
+    
     for i in champion_data["data"]:
         champ_name_kor_list.append(champion_data["data"][i]['name'])
     Fighter = []
@@ -65,10 +66,12 @@ def main(errmsg):
                                                                                                          
     if current_user.is_authenticated:
         PageSession.save_session_info(session['client_id'], current_user.user_email)
-        return render_template('main.html', nickname=current_user.nickname, Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, Hottest=Hottest, errmsg=errmsg) #단순히 main.html을 render하면 server.py에서 들여왔던 이미지들은 로딩이 안되게됨.
+        return render_template('main.html', nickname=current_user.nickname, Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, Hottest=Hottest, 
+                               errmsg=errmsg, champion_name=champion_name, champ_name_kor_list=champ_name_kor_list) #단순히 main.html을 render하면 server.py에서 들여왔던 이미지들은 로딩이 안되게됨.
     else:
         PageSession.save_session_info(session['client_id'], 'anonymous')
-        return render_template('main.html', Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, Hottest=Hottest, errmsg=errmsg)
+        return render_template('main.html', Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, Hottest=Hottest, errmsg=errmsg
+                               , champion_name=champion_name, champ_name_kor_list=champ_name_kor_list)
     
 
 @routing_object.route('/register_page') #회원가입 페이지 접근 로직
@@ -238,6 +241,26 @@ def post():
 @routing_object.route('/env', methods=["POST"])
 def env():
     return jsonify({"key" : os.getenv("OPENAI_API_KEY")})
+
+@routing_object.route('/translate', methods=['GET'])
+def translate():
+    with open('champion_data.json', 'r') as json_file:
+        champion_data = json.load(json_file)
+        
+    champion_name = []
+    champ_name_kor_list = []
+    for data in champion_data["data"]:
+        champion_name.append(data)
+    
+    for i in champion_data["data"]:
+        champ_name_kor_list.append(champion_data["data"][i]['name'])
+    
+    
+    name_dict = {}
+    for i in range(len(champion_name)):
+        name_dict[champ_name_kor_list[i]] = champion_name[i]
+    #print(name_dict)    
+    return jsonify(name_dict)
 
 # @routing_object.route('/opponent')
 # def opponent():

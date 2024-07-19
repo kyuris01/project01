@@ -17,6 +17,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.session_protection = "strong"
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)
@@ -37,11 +38,12 @@ def index():
     with open('champion_data.json', 'r') as json_file:
         champion_data = json.load(json_file)
     
-    champion_name=[]
+    champion_name =[]
+    champ_name_kor_list =[]
+    
     for i in champion_data["data"]:
         champion_name.append(i)
-        
-    champ_name_kor_list=[]
+    
     for i in champion_data["data"]:
         champ_name_kor_list.append(champion_data['data'][i]['name'])
     
@@ -70,10 +72,12 @@ def index():
     
     if current_user.is_authenticated:
         PageSession.save_session_info(session['client_id'], current_user.user_email)
-        return render_template('main.html', nickname=current_user.nickname, Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, errmsg="normal") #단순히 main.html을 render하면 server.py에서 들여왔던 이미지들은 로딩이 안되게됨.
+        return render_template('main.html', nickname=current_user.nickname, Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, errmsg="normal"
+                               , champion_name = champion_name, champ_name_kor_list=champ_name_kor_list) #단순히 main.html을 render하면 server.py에서 들여왔던 이미지들은 로딩이 안되게됨.
     else:
         PageSession.save_session_info(session['client_id'], 'anonymous')
-        return render_template('main.html', Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, errmsg="normal")
+        return render_template('main.html', Fighter=Fighter, Tank=Tank, Mage=Mage, Assassin=Assassin, Marksman=Marksman, Support=Support, errmsg="normal",
+                               champion_name=champion_name, champ_name_kor_list=champ_name_kor_list)
 
 @app.before_request
 def app_before_request():

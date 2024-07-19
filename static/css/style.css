@@ -12,6 +12,54 @@ body {
   font-weight: 400;
   font-style: normal;
 }
+
+/*nav-box section */
+.nav-box {
+  display: flex;
+  background-color: white;
+  opacity: 0.8;
+  height: 5rem;
+  justify-content: space-between;
+  align-content: center;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+}
+
+.session_menu {
+  margin-left: 2rem;
+  margin-right: 2rem;
+  line-height: 5rem;
+}
+
+.session_box {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logo-box {
+  justify-content: flex-start;
+  margin-left: 1rem;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  margin-left: 18rem;
+  margin-top: 1rem;
+}
+
+#champ-search-input {
+  height: 3rem;
+  font-size: large;
+}
+
+#champ-search-button {
+  height: 3rem;
+  margin-left: 1rem;
+}
+
 /*img-title-section*/
 .img-section-text {
   position: absolute;
@@ -29,36 +77,9 @@ body {
   left: 17rem;
 }
 
-.session_menu {
-  margin-left: 2rem;
-  margin-right: 2rem;
-  line-height: 5rem;
-}
-
-.session_box {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.logo_box {
-  justify-content: flex-start;
-  margin-left: 1rem;
-}
-
 img {
   width: 100%;
   height: 100%;
-}
-
-.nav_box {
-  display: flex;
-  background-color: white;
-  opacity: 0.8;
-  height: 5rem;
-  justify-content: space-between;
-  position: fixed;
-  width: 100%;
-  z-index: 1000;
 }
 
 .main-image {
@@ -81,6 +102,8 @@ img {
   right: 0px;
   bottom: 0px;
 }
+
+/*----------------------------*/
 
 .champions_box {
   width: 70%;
