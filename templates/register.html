@@ -82,14 +82,14 @@
         --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
 
         --bs-btn-font-weight: 600;
-        --bs-btn-color: var(--bs-white);
+        /*--bs-btn-color: var(--bs-white);*/
         --bs-btn-bg: var(--bd-violet-bg);
         --bs-btn-border-color: var(--bd-violet-bg);
-        --bs-btn-hover-color: var(--bs-white);
+        /*--bs-btn-hover-color: var(--bs-white);*/
         --bs-btn-hover-bg: #6528e0;
         --bs-btn-hover-border-color: #6528e0;
         --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-        --bs-btn-active-color: var(--bs-btn-hover-color);
+        /*--bs-btn-active-color: var(--bs-btn-hover-color);*/
         --bs-btn-active-bg: #5a23c8;
         --bs-btn-active-border-color: #5a23c8;
       }
@@ -105,6 +105,11 @@
       .custom-btn {
         background-color: #6610f2;
         border-color: #6610f2;
+        color: white;
+      }
+
+      .custom-btn:hover {
+        background-color: #6610f2;
       }
 
       .mainpage {
@@ -117,7 +122,17 @@
 
       a {
         text-decoration: none;
-        color: black;
+        color: white;
+      }
+
+      h1 {
+        white-space: nowrap;
+        text-align: center;
+      }
+
+      .notice {
+        display: flex;
+        justify-content: center;
       }
     </style>
 
@@ -127,17 +142,21 @@
   <body class="d-flex align-items-center py-4 bg-body-tertiary">
     <main class="form-signin w-100 m-auto">
       {% if info1 == 'exist' %}
-      <div>
-        <h1>{{ info2 }}님은 이미 가입한 회원입니다.</h1>
-        <button class="w-100 btn btn-lg btn-light" type="submit"><a href="/routing/main/normal">메인페이지로</a></button>
+      <div class="notice">
+        <h1>
+          {{ info2 }}님은<br />
+          이미 가입한 회원입니다.
+        </h1>
       </div>
+      <button class="w-100 btn custom-btn" type="submit"><a href="/routing/main/normal">메인페이지로</a></button>
       {% elif info1 =='new' %}
       <div>
         <h1>
           {{ info2 }}님<br />
           회원가입을 축하합니다!
         </h1>
-        <button class="w-100 btn btn-lg btn-light" type="submit"><a href="/routing/main/normal">메인페이지로</a></button>
+        <!-- btn-lg btn-light -->
+        <button class="w-100 btn custom-btn" type="submit"><a href="/routing/main/normal">메인페이지로</a></button>
       </div>
       {% else %}
       <form method="post" action="/routing/register_function">

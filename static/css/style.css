@@ -8,8 +8,11 @@ a {
 }
 
 body {
-  font-family: "Black Han Sans", sans-serif;
+  /* font-family: "Black Han Sans", sans-serif;
   font-weight: 400;
+  font-style: normal; */
+  font-family: "Nanum Gothic";
+  font-weight: 700;
   font-style: normal;
 }
 
@@ -35,6 +38,7 @@ body {
 .session_box {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 
 .logo-box {
@@ -42,13 +46,13 @@ body {
   margin-left: 1rem;
 }
 
-.search-box {
+/* .search-box {
   display: flex;
   align-items: center;
   position: absolute;
-  margin-left: 18rem;
+  margin-left: 180px;
   margin-top: 1rem;
-}
+} */
 
 #champ-search-input {
   height: 3rem;
@@ -58,6 +62,7 @@ body {
 #champ-search-button {
   height: 3rem;
   margin-left: 1rem;
+  cursor: pointer;
 }
 
 /*img-title-section*/
@@ -67,6 +72,8 @@ body {
   font-size: 3rem;
   top: 10rem;
   left: 17rem;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .img-section-text-2 {
@@ -75,6 +82,8 @@ body {
   font-size: 1.5rem;
   top: 14rem;
   left: 17rem;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 img {
@@ -194,4 +203,28 @@ footer {
 
 .champ_role {
   font-size: 1.5rem;
+}
+
+/*반응형*/
+@media only screen and (max-width: 660px) {
+  #champ-search-input {
+    display: none;
+  }
+  #champ-search-button {
+    display: none;
+  }
+
+  .img-section-text {
+    display: none;
+  }
+
+  .img-section-text-2 {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  #hello-msg {
+    display: none;
+  }
 }

@@ -31,6 +31,15 @@
           <a href="/routing/main/normal"><img src="/static/img/Lollipop.png" alt="사이트로고" /></a>
         </div>
         <div class="search-box">
+          <!-- <input id="champ-search-input" type="text" list="searchOptions" />
+          <datalist id="searchOptions">
+            {% for i in range(0,champ_name_kor_list|length) %}
+            <option value="{{champ_name_kor_list[i]}}" class="select-option"></option>
+            {% endfor %}
+          </datalist>
+          <button id="champ-search-button">검색</button> -->
+        </div>
+        <div class="session_box">
           <input id="champ-search-input" type="text" list="searchOptions" />
           <datalist id="searchOptions">
             {% for i in range(0,champ_name_kor_list|length) %}
@@ -38,10 +47,8 @@
             {% endfor %}
           </datalist>
           <button id="champ-search-button">검색</button>
-        </div>
-        <div class="session_box">
           {% if nickname != null %}
-          <div class="session_menu">{{nickname}}님, 안녕하세요</div>
+          <div class="session_menu" id="hello-msg">{{nickname}}님, 안녕하세요</div>
           <div class="session_menu"><a href="/routing/logout">logout</a></div>
           <div class="session_menu"><a href="/routing/withdraw">회원탈퇴</a></div>
 
@@ -55,7 +62,7 @@
     <section>
       <div class="main-image">
         <div class="img-section-text">Lollipop을 통해 LoL과 친숙해져보세요</div>
-        <div class="img-section-text-2">초보자와 뉴비를 위한, 단순화된 롤정보 사이트</div>
+        <div class="img-section-text-2">초보자와 뉴비를 위한, 심플한 롤정보 사이트</div>
       </div>
       <div class="champions_box">
         <div class="champ_category">

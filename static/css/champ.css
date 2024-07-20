@@ -15,13 +15,14 @@ body {
 /*champ-description part */
 .progress-bar-custom .progress-bar {
   background-color: #6610f2;
+  color: white !important;
 }
 
 .champ-description {
-  margin-top: 5rem;
+  margin-top: 3rem;
   margin-left: 1rem;
   padding: 1rem;
-  width: 20rem;
+  width: 21.8%;
   height: 560px;
   color: white;
   background-color: #31313c;
@@ -33,14 +34,18 @@ body {
 
 .champ-nickname {
   margin-top: 0.3rem;
+  white-space: nowrap;
 }
 
 .champ-name {
   font-size: x-large;
+  white-space: nowrap;
 }
 
 .champ-blurb {
   margin-top: 1rem;
+  height: 50%;
+  overflow: hidden;
 }
 
 .champ-stat {
@@ -49,11 +54,11 @@ body {
 
 /*champ-opponent*/
 .opponent-selection {
-  margin-top: 5rem;
+  margin-top: 3rem;
   margin-left: 1rem;
   height: 560px;
   background-color: #31313c;
-  max-width: 69rem;
+  width: 70%;
   display: flex;
   flex-wrap: wrap; /*flex-item들이 flex-container의 크기를 넘길때, 어떻게 처리하는지에 관련된 속성*/
   overflow: auto;
@@ -83,7 +88,9 @@ body {
   opacity: 1;
 }
 
-.champ_box {
+.champ-box {
+  width: 94%;
+  margin-left: 3rem;
   display: flex;
   justify-content: flex-start;
   /* background-color: rgb(167, 76, 169); */
@@ -91,8 +98,7 @@ body {
 }
 
 .champ-img {
-  margin-top: 5rem;
-  margin-left: 5rem;
+  margin-top: 3rem;
 }
 
 /*----------------------*/
@@ -106,10 +112,10 @@ body {
 
 .champ-memo-section {
   margin-top: 1rem;
-  margin-left: 5rem;
+  margin-left: 3rem;
   margin-bottom: 3rem;
   background-color: #31313c;
-  width: 93%;
+  width: 94%;
   height: 34rem;
   padding: 1rem;
   overflow: auto;
@@ -160,18 +166,6 @@ body {
   color: #6610f2;
 }
 
-/* thead > tr > th {
-  width: 300px;
-}
-
-thead > tr {
-  height: 5px;
-} */
-
-/* tbody > tr > td {
-  max-height: 3rem;
-} */
-
 table,
 th,
 td {
@@ -181,12 +175,13 @@ td {
 /*tipbox관련--------------------------------------*/
 .tip_and_youtube {
   display: flex;
+  width: 94%;
+  margin-left: 3rem;
 }
 
 .tip-section {
   background-color: #31313c;
-  width: 50%;
-  margin-left: 5rem;
+  width: 37.8%;
   padding: 1rem;
 }
 
@@ -197,7 +192,7 @@ td {
 #me,
 #opp {
   background-color: white;
-  width: 20%;
+  width: 5rem;
   color: black;
 }
 
@@ -221,7 +216,7 @@ td {
 /*youtube관련*/
 .youtube-section {
   background-color: #31313c;
-  width: 50rem;
+  width: 62%;
   margin-left: 1rem;
   padding: 1rem;
   display: flex;
@@ -231,4 +226,54 @@ td {
 #player {
   aspect-ratio: 16 / 9;
   width: 100%;
+  height: auto;
+}
+
+@media only screen and (max-width: 1100px) {
+  .champ-nickname {
+    display: none;
+  }
+
+  .champ-img > img {
+    width: 80%;
+    height: auto;
+  }
+
+  .champ-description {
+    width: 80%;
+    margin-left: 0rem;
+  }
+
+  .opponent-selection {
+    margin-left: 0rem;
+    width: 80%;
+  }
+
+  .opp-img {
+    width: 3rem;
+    height: auto;
+  }
+
+  .tip-section {
+    width: 80%;
+  }
+
+  .champ-box {
+    display: block;
+  }
+  /*-------------*/
+  .tip_and_youtube {
+    display: block;
+  }
+
+  .youtube-section {
+    width: 80%;
+    margin-top: 1rem;
+    margin-left: 0rem;
+  }
+
+  /*-------------*/
+  .champ-memo-section {
+    width: 75%;
+  }
 }

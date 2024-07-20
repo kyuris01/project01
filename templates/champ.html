@@ -23,7 +23,7 @@
       alert("{{messages[-1]}}");
     </script>
     {% endif %} {% endwith %}
-    <div class="champ_box">
+    <div class="champ-box">
       <div class="champ-img">
         <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/loading/{{champ_name}}_0.jpg" alt="" />
       </div>
@@ -217,7 +217,7 @@
       </form>
     </div>
 
-    <!-- <script>
+    <script>
       const API_KEY = "{{YOUTUBE_API_KEY}}";
       const SEARCH_QUERY = "롤 " + "{{champ_name_kor}}" + "초보 강의";
 
@@ -250,8 +250,7 @@
           })
           .catch((error) => console.error("YouTube Data API 호출 중 오류 발생:", error));
       }
-
-    </script> -->
+    </script>
     <script src="/static/js/openAI.js"></script>
     <script>
       const opp_img_list = document.getElementsByClassName("opp-img");
