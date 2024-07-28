@@ -221,6 +221,11 @@ footer {
   .img-section-text-2 {
     display: none;
   }
+
+  body {
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
 }
 
 @media only screen and (max-width: 900px) {
